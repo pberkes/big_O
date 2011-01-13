@@ -16,5 +16,21 @@ class TestBigO(unittest.TestCase):
         assert_array_equal(ns, np.arange(1, 11))
         assert_array_almost_equal(t*100., np.arange(1, 11), 1)
 
+    def test_infer_big_o(self):
+        x = np.linspace(10, 100, 100)
+        
+        desired = [(lambda x: x*0.+2., big_o.Constant, [2.]),
+                   (lambda x: 4.*x, big_o.Linear, [0., 4.]),
+                   (lambda x: 3.*x**2., big_o.Quadratic, [0., 3.]),
+                   (lambda x: 2.*x**4., big_o.Polynomial, [np.log(2.), 4.]),
+                   (lambda x: 1.5*np.log(x), big_o.Logarithmic, [0., 1.5]),
+                   (lambda x: x*np.log(x), big_o.Linearithmic, [0., 1.]),
+                   (lambda x: 0.6**x, big_o.Exponential, [0., np.log(0.6)])]
+        for f, class_, coeff in desired:
+            y = f(x)
+            res_class, res_coeff = big_o.infer_big_o_class(x, y)
+            self.assertEqual(class_, res_class)
+            assert_array_almost_equal(coeff, res_coeff, 2)
+
 if __name__=='__main__':
     unittest.main()

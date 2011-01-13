@@ -44,3 +44,93 @@ def measure_execution_time(func, data_generator,
         time[i] = timer.timeit(n_repeats)
     return ns, time
 
+# -------- define all big-O classes considered in the fitting functions
+class Constant(object):
+    @staticmethod
+    def get_xy(ns, time):
+        x = np.ones((len(ns), 1))
+        return x, time
+    @staticmethod
+    def pprint(coeff):
+        return 'y = %.3f' % coeff[0]
+
+class Linear(object):
+    @staticmethod
+    def get_xy(ns, time):
+        x = np.vstack([np.ones(len(ns)), ns]).T
+        return x, time
+    @staticmethod
+    def pprint(coeff):
+        return 'y = %.3f + %.3f*n' % (coeff[0], coeff[1])
+
+class Quadratic(object):
+    @staticmethod
+    def get_xy(ns, time):
+        x = np.vstack([np.ones(len(ns)), ns*ns]).T
+        return x, time
+    @staticmethod
+    def pprint(coeff):
+        return 'y = %.3f + %.3f*n^2' % (coeff[0], coeff[1])
+
+class Logarithmic(object):
+    @staticmethod
+    def get_xy(ns, time):
+        x = np.vstack([np.ones(len(ns)), np.log(ns)]).T
+        return x, time
+    @staticmethod
+    def pprint(coeff):
+        return 'y = %.3f + %.3f*log(n)' % (coeff[0], coeff[1])
+
+class Linearithmic(object):
+    @staticmethod
+    def get_xy(ns, time):
+        x = np.vstack([np.ones(len(ns)), ns*np.log(ns)]).T
+        return x, time
+    @staticmethod
+    def pprint(coeff):
+        return 'y = %.3f + %.3f*n*log(n)' % (coeff[0], coeff[1])
+
+class Polynomial(object):
+    @staticmethod
+    def get_xy(ns, time):
+        x = np.vstack([np.ones(len(ns)), np.log(ns)]).T
+        y = np.log(time)
+        return x, y
+    @staticmethod
+    def pprint(coeff):
+        return 'y = %.3f * x^%.3f' % (np.exp(coeff[0]), coeff[1])
+
+class Exponential(object):
+    @staticmethod
+    def get_xy(ns, time):
+        x = np.vstack([np.ones(len(ns)), ns]).T
+        y = np.log(time)
+        return x, y
+    @staticmethod
+    def pprint(coeff):
+        return 'y = %.3f * %.3f^x' % (np.exp(coeff[0]), np.exp(coeff[1]))
+
+ALL_CLASSES = [Constant, Linear, Quadratic, Polynomial,
+               Logarithmic, Linearithmic, Exponential]
+
+def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
+    """Return the complexity class of func.
+    """
+
+    best_class = None
+    best_coeff = None
+    best_residuals = np.inf
+    for class_ in classes:
+        x, y = class_.get_xy(ns, time)
+        coeff, residuals, rank, s = np.linalg.lstsq(x, y)
+        # NOTE: subtract 1e-6 for tiny preference for simpler methods
+        if residuals < best_residuals - 1e-6:  
+            best_residuals = residuals
+            best_coeff = coeff
+            best_class = class_
+        if verbose:
+            print '%s: %s (r=%f)' % (class_.__name__,
+                                       class_.pprint(coeff),
+                                       residuals)
+    return best_class, best_coeff
+
