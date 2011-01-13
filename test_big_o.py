@@ -41,7 +41,7 @@ class TestBigO(unittest.TestCase):
                         big_o.Linearithmic)]
         for func, class_ in desired:
             res_class, res_coeff = big_o.big_o(func, big_o.n_generator,
-                                               min_n=1, max_n=1000, verbose=True)
+                                               min_n=1, max_n=1000)
             self.assertEqual(class_, res_class)
 
 
