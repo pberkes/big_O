@@ -6,9 +6,6 @@ from __main__ import func
 x = data_generator(%d)
 """
 
-n_generator = lambda n: n
-range_n_generator = lambda n: range(n)
-
 def measure_execution_time(func, data_generator,
                            min_n=1, max_n=100000, n_measures=10,
                            n_repeats=1):
