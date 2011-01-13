@@ -32,5 +32,18 @@ class TestBigO(unittest.TestCase):
             self.assertEqual(class_, res_class)
             assert_array_almost_equal(coeff, res_coeff, 2)
 
+    def test_big_o(self):
+        desired = [(lambda n: [i for i in range(n*1000)], big_o.Linear),
+                   (lambda n: 1., big_o.Constant),
+                   (lambda n: [i+j for i in range(n) for j in range(n)],
+                        big_o.Quadratic),
+                   (lambda n: sorted(np.random.randn(n*100)),
+                        big_o.Linearithmic)]
+        for func, class_ in desired:
+            res_class, res_coeff = big_o.big_o(func, big_o.n_generator,
+                                               min_n=1, max_n=1000, verbose=True)
+            self.assertEqual(class_, res_class)
+
+
 if __name__=='__main__':
     unittest.main()
