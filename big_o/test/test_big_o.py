@@ -1,10 +1,14 @@
+# Author: Pietro Berkes < pietro _DOT_ berkes _AT_ googlemail _DOT_ com >
+# Copyright (c) 2011 Pietro Berkes
+# License: GPL v3
+
 import unittest
 import time
 import numpy as np
 from numpy.testing import assert_array_equal, assert_array_almost_equal
 
 import big_o
-import datagen
+from big_o import datagen
 
 class TestBigO(unittest.TestCase):
     def test_measure_execution_time(self):
