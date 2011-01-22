@@ -46,6 +46,11 @@ def measure_execution_time(func, data_generator,
     return ns, time
 
 # -------- define all big-O classes considered in the fitting functions
+
+# TODO: cubic
+# TODO: move to separate file
+# TODO: give these classes more responsibility, define superclass
+# XXX: fitting should be a task for these classes
 class Constant(object):
     @staticmethod
     def get_xy(ns, time):
@@ -115,7 +120,20 @@ ALL_CLASSES = [Constant, Linear, Quadratic, Polynomial,
                Logarithmic, Linearithmic, Exponential]
 
 def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
-    """Return the complexity class of func.
+    """Return the complexity class from execution times.
+    
+    Input:
+    ns -- Array of values of N for which execution time has been measured.
+    time -- Array of execution times for each N in `ns`.
+    classes -- The complexity classes to consider
+               Deafault: all the classes in ALL_CLASSES
+    verbose -- Print parameters and residuals of the fit for each complexity
+               class
+    
+    Output:
+    best_class -- an object representing the complexity class that best fits
+                  the measured execution times
+    best_coeff -- the fitted parameters
     """
 
     best_class = None
@@ -125,6 +143,7 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
         x, y = class_.get_xy(ns, time)
         coeff, residuals, rank, s = np.linalg.lstsq(x, y)
         # NOTE: subtract 1e-6 for tiny preference for simpler methods
+        # TODO: improve simplicity detection
         if residuals < best_residuals - 1e-6:  
             best_residuals = residuals
             best_coeff = coeff
@@ -138,6 +157,29 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
 def big_o(func, data_generator,
           min_n=100, max_n=100000, n_measures=10,
           n_repeats=1, classes=ALL_CLASSES, verbose=False):
+    """Estimate time complexity of a Python function from execution time.
+
+    Input:
+    func -- function of which the execution time is measured
+            the function is called as func(data), where data is returned
+            by data_generator
+    data_generator -- function that returns input data for different Ns
+                      each input data fpor func is created as data_generator(N)
+    min_n, max_n, n_measures -- the execution time of func is measured
+                                at n_measures points between min_n and max_n
+                                (included)
+    n_repeats -- number of times func is called to compute execution time
+                 (return the cumulative time of execution)
+    classes -- The complexity classes to consider
+               Deafault: all the classes in ALL_CLASSES
+    verbose -- Print parameters and residuals of the fit for each complexity
+               class
+    
+    Output:
+    best_class -- an object representing the complexity class that best fits
+                  the measured execution times
+    best_coeff -- the fitted parameters
+    """
     ns, time = measure_execution_time(func, data_generator,
                                       min_n, max_n, n_measures, n_repeats)
     return infer_big_o_class(ns, time, classes, verbose=verbose)
