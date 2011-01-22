@@ -11,7 +11,7 @@ x = data_generator(%d)
 """
 
 def measure_execution_time(func, data_generator,
-                           min_n=1, max_n=100000, n_measures=10,
+                           min_n=100, max_n=100000, n_measures=10,
                            n_repeats=1):
     """Measure the execution time of a function for increasing N.
     
@@ -136,7 +136,7 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
     return best_class, best_coeff
 
 def big_o(func, data_generator,
-          min_n=1, max_n=100000, n_measures=10,
+          min_n=100, max_n=100000, n_measures=10,
           n_repeats=1, classes=ALL_CLASSES, verbose=False):
     ns, time = measure_execution_time(func, data_generator,
                                       min_n, max_n, n_measures, n_repeats)
