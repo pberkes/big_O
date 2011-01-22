@@ -16,7 +16,7 @@ Examples
 `numpy` examples
 ----------------
 
-::
+..
 
 	>>> import big_o
 	>>> import numpy as np
