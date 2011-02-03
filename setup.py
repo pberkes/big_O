@@ -7,7 +7,6 @@ setup(name='big_O',
       author_email='pietro.berkes@googlemail.com',
       url='https://github.com/pberkes/big_O',
       license='LICENSE.txt',
-      description='Useful towel-related stuff.',
-      long_description=open('README.txt').read(),
+      long_description=open('README.rst').read(),
       py_modules=['big_o']
       )
