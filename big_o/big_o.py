@@ -2,6 +2,8 @@
 # Copyright (c) 2011 Pietro Berkes
 # License: GPL v3
 
+# TODO: simple plotting functions
+
 import numpy as np
 from timeit import Timer
 
@@ -61,26 +63,25 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
     Output:
     best_class -- an object representing the complexity class that best fits
                   the measured execution times
-    best_coeff -- the fitted parameters
+    fitted -- a list of all fitted complexity classes
     """
 
     best_class = None
-    best_coeff = None
     best_residuals = np.inf
+    fitted = []
     for class_ in classes:
-        x, y = class_.get_xy(ns, time)
-        coeff, residuals, rank, s = np.linalg.lstsq(x, y)
+        inst = class_()
+        residuals = inst.fit(ns, time)
+        fitted.append(inst)
+
         # NOTE: subtract 1e-6 for tiny preference for simpler methods
         # TODO: improve simplicity detection
         if residuals < best_residuals - 1e-6:  
             best_residuals = residuals
-            best_coeff = coeff
-            best_class = class_
+            best_class = inst
         if verbose:
-            print '%s: %s (r=%f)' % (class_.__name__,
-                                       class_.pprint(coeff),
-                                       residuals)
-    return best_class, best_coeff
+            print inst, '(r=%f)' % residuals
+    return best_class, fitted
 
 def big_o(func, data_generator,
           min_n=100, max_n=100000, n_measures=10,
@@ -106,7 +107,7 @@ def big_o(func, data_generator,
     Output:
     best_class -- an object representing the complexity class that best fits
                   the measured execution times
-    best_coeff -- the fitted parameters
+    fitted -- a list of all fitted complexity classes
     """
     ns, time = measure_execution_time(func, data_generator,
                                       min_n, max_n, n_measures, n_repeats)

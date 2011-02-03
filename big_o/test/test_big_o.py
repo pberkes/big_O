@@ -34,9 +34,9 @@ class TestBigO(unittest.TestCase):
                    (lambda x: 0.6**x, compl.Exponential, [0., np.log(0.6)])]
         for f, class_, coeff in desired:
             y = f(x)
-            res_class, res_coeff = big_o.infer_big_o_class(x, y)
-            self.assertEqual(class_, res_class)
-            assert_array_almost_equal(coeff, res_coeff, 2)
+            res_class, fitted = big_o.infer_big_o_class(x, y)
+            self.assertEqual(class_, res_class.__class__)
+            assert_array_almost_equal(coeff, res_class.coeff, 2)
 
     def test_big_o(self):
         desired = [(lambda n: [i for i in range(n*1000)], compl.Linear),
@@ -46,9 +46,9 @@ class TestBigO(unittest.TestCase):
                    (lambda n: sorted(np.random.randn(n*100)),
                         compl.Linearithmic)]
         for func, class_ in desired:
-            res_class, res_coeff = big_o.big_o(func, datagen.n_,
+            res_class, fitted = big_o.big_o(func, datagen.n_,
                                                min_n=100, max_n=1000)
-            self.assertEqual(class_, res_class)
+            self.assertEqual(class_, res_class.__class__)
 
 
 if __name__=='__main__':
