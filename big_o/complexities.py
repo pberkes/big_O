@@ -10,6 +10,9 @@ import numpy as np
 # TODO: pretty print utility that prints first significant numbers
 # TODO: transform fitted numbers in seconds to have interpretable results
 
+class NotFittedError(Exception):
+    pass
+
 class ComplexityClass(object):
     def __init__(self):
         # list of parameters of the fitted function class as returned by the
