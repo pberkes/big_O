@@ -9,11 +9,6 @@ from timeit import Timer
 
 from .complexities import ALL_CLASSES
 
-_TIMER_SETUP = """
-from __main__ import func
-x = data_generator(%d)
-"""
-
 def measure_execution_time(func, data_generator,
                            min_n=100, max_n=100000, n_measures=10,
                            n_repeats=1):
