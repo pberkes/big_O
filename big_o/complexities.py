@@ -52,7 +52,7 @@ class ComplexityClass(object):
         x = self._transform_n(n)
         tot = 0
         for i in range(len(self.coeff)):
-            tot += self.coeff[i] * x[i]
+            tot += self.coeff[i] * x[:,i]
         return tot
 
     def __str__(self):
