@@ -6,7 +6,6 @@
 
 import numpy as np
 
-# TODO: cubic
 # TODO: pretty print utility that prints first significant numbers
 # TODO: transform fitted numbers in seconds to have interpretable results
 
@@ -14,12 +13,30 @@ class NotFittedError(Exception):
     pass
 
 class ComplexityClass(object):
+    """Abstract class that defines functionality for fitting complexity
+    classes to timing data. 
+    """
+    
     def __init__(self):
         # list of parameters of the fitted function class as returned by the
         # last square method np.linalg.lstsq
         self.coeff = None
 
     def fit(self, n, t):
+        """Fit complexity class parameters to timing data.
+        
+        Input:
+        ------
+        
+        n -- Array of values of N for which execution time has been measured.
+    
+        t -- Array of execution times for each N in `ns`.
+        
+        Output:
+        -------
+        
+        residuals -- Sum of square errors of fit
+        """
         x = self._transform_n(n)
         y = self._transform_time(t)
         coeff, residuals, rank, s = np.linalg.lstsq(x, y)
@@ -27,7 +44,7 @@ class ComplexityClass(object):
         return residuals
 
     def compute(self, n):
-        """Compute f(n)."""
+        """Compute the value of the fitted function at `n`."""
         if self.coeff is None:
             raise NotFittedError()
 
@@ -49,16 +66,22 @@ class ComplexityClass(object):
 
     @classmethod
     def format_str(cls):
+        """Return a string describing the fitted function.
+        
+        The string must contain one formatting argument for each coefficient."""
         return 'FORMAT STRING NOT DEFINED'
 
     def _transform_n(self, n):
-        """Terms of f(n).
+        """Terms of the linear combination defining the complexity class.
         
         Output format: number of Ns x number of coefficients .
         """
         raise NotImplementedError()
 
     def _transform_time(self, t):
+        """Transform time as needed for fit
+        (e.g., t->log(t)) for exponential class.
+        """
         return t
 
 # --- Concrete implementations of the most popular complexity classes
@@ -89,7 +112,7 @@ class Quadratic(ComplexityClass):
 
 class Cubic(ComplexityClass):
     def _transform_n(self, n):
-        return np.vstack([np.ones(len(n)), n**3]).T
+        return np.vstack([np.ones(len(n)), n ** 3]).T
 
     @classmethod
     def format_str(cls):
