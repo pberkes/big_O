@@ -28,6 +28,7 @@ class TestBigO(unittest.TestCase):
         desired = [(lambda x: x*0.+2., compl.Constant, [2.]),
                    (lambda x: 4.*x, compl.Linear, [0., 4.]),
                    (lambda x: 3.*x**2., compl.Quadratic, [0., 3.]),
+                   (lambda x: 2.5*x**3 + 2., compl.Cubic, [2., 2.5]),
                    (lambda x: 2.*x**4., compl.Polynomial, [np.log(2.), 4.]),
                    (lambda x: 1.5*np.log(x), compl.Logarithmic, [0., 1.5]),
                    (lambda x: x*np.log(x), compl.Linearithmic, [0., 1.]),

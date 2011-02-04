@@ -84,6 +84,14 @@ class Quadratic(ComplexityClass):
     def format_str(cls):
         return 'time = %.3f + %.3f*n^2'
 
+class Cubic(ComplexityClass):
+    def _transform_n(self, n):
+        return np.vstack([np.ones(len(n)), n**3]).T
+
+    @classmethod
+    def format_str(cls):
+        return 'time = %.3f + %.3f*n^3'
+
 class Logarithmic(ComplexityClass):
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), np.log(n)]).T
@@ -122,5 +130,5 @@ class Exponential(ComplexityClass):
     def format_str(cls):
         return 'time = %.3f * %.3f^n'
 
-ALL_CLASSES = [Constant, Linear, Quadratic, Polynomial,
+ALL_CLASSES = [Constant, Linear, Quadratic, Cubic, Polynomial,
                Logarithmic, Linearithmic, Exponential]
