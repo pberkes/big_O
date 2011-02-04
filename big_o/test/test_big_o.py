@@ -51,6 +51,9 @@ class TestBigO(unittest.TestCase):
                                                min_n=100, max_n=1000)
             self.assertEqual(class_, res_class.__class__)
 
+    def test_not_fitted(self):
+        linear = compl.Linear()
+        self.assertRaises(compl.NotFittedError, linear.compute, 100)
 
 if __name__=='__main__':
     unittest.main()
