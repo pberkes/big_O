@@ -3,8 +3,8 @@ big_O
 =====
 
 big_O is a Python module to estimate the time complexity of Python code from
-its execution time. Use it to analyze how your functions scale with inputs
-of increasing size.
+its execution time. You can use it to analyze how your functions scale
+with inputs of increasing size.
 
 big_O executes a Python function for input of increasing size `N`, and measures
 its execution time. From the measurements, big_O fits a set of time complexity
@@ -21,10 +21,10 @@ of a simple function that finds the maximum element in a list of positive
 integers:
 
 	>>> def find_max(x):
-	...     """Find the maximum of a list of positive integers."""
+	...     """Find the maximum element in a list of positive integers."""
 	...     max_ = 0
 	...     for el in x:
-	...         if el>max_:
+	...         if el > max_:
 	...             max_ = el
 	...     return max_
 	...
@@ -59,21 +59,22 @@ Submodules
 ----------
 
 - `big_o.datagen`: this sub-module contains common data generators, including
-	an identity generator that simply returns N (`datagen.n_`), and a
-	data generator that returns a list of random integers of length N.
+   an identity generator that simply returns N (`datagen.n_`), and a
+   data generator that returns a list of random integers of length N
+   (`datagen.integers`).
 
 - `big_o.complexities`: this sub-module defines the complexity classes to be
-	fit to the execution times. Unless you want to define new classes, you
-	don't need to worry about it.
+   fit to the execution times. Unless you want to define new classes, you
+   don't need to worry about it.
 
---------
+
 Examples
---------
+========
 
 Standard library examples
 -------------------------
 
-Sorting of a list is O(Nlog(N)):
+Sorting a list in Python is O(n*log(n)) (a.k.a. 'linearithmic'):
 
 	>>> big_o.big_o(sorted, lambda n: big_o.datagen.integers(n, -100, 100))
 	(<big_o.complexities.Linearithmic object at 0x031DA9D0>, ...)
@@ -94,9 +95,9 @@ Creating an array:
 	>>> big_o.big_o(np.empty, big_o.datagen.n_, max_n=1000000, n_repeats=5) # doctest: +ELLIPSIS
 	(<class 'big_o.big_o.Constant'> ...)
 
--------
+
 License
--------
+=======
 
 big_O is released under the GPL v3. See LICENSE.txt .
 
