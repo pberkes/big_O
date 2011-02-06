@@ -81,19 +81,19 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
                   the measured execution times.
                   Instance of `big_o.complexities.ComplexityClass`.
                   
-    fitted -- A list of all fitted complexity classes
+    fitted -- A dictionary of fittest complexity classes to the fit residuals
     """
 
     best_class = None
     best_residuals = np.inf
-    fitted = []
+    fitted = {}
     for class_ in classes:
         inst = class_()
         residuals = inst.fit(ns, time)
-        fitted.append(inst)
+        fitted[inst] = residuals
 
         # NOTE: subtract 1e-6 for tiny preference for simpler methods
-        # TODO: improve simplicity bias (AIC/BIC)
+        # TODO: improve simplicity bias (AIC/BIC)?
         if residuals < best_residuals - 1e-6:
             best_residuals = residuals
             best_class = inst
@@ -140,7 +140,7 @@ def big_o(func, data_generator,
                   the measured execution times.
                   Instance of `big_o.complexities.ComplexityClass`.
                   
-    fitted -- A list of all fitted complexity classes
+    fitted -- A dictionary of fittest complexity classes to the fit residuals
     """
 
     ns, time = measure_execution_time(func, data_generator,
