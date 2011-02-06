@@ -58,18 +58,9 @@ of all fitted classes with the residuals from the fit as keys:
 Submodules
 ----------
 
-- `big_o.datagen`: this sub-module contains common data generators, including
-   an identity generator that simply returns N (`datagen.n_`), and a
-   data generator that returns a list of random integers of length N
-   (`datagen.integers`).
+- `big_o.datagen`: this sub-module contains common data generators, including an identity generator that simply returns N (`datagen.n_`), and a data generator that returns a list of random integers of length N (`datagen.integers`).
+- `big_o.complexities`: this sub-module defines the complexity classes to be fit to the execution times. Unless you want to define new classes, you don't need to worry about it.
 
-- `big_o.complexities`: this sub-module defines the complexity classes to be
-   fit to the execution times. Unless you want to define new classes, you
-   don't need to worry about it.
-
-
-Examples
-========
 
 Standard library examples
 -------------------------
@@ -97,7 +88,7 @@ Creating an array:
 
 
 License
-=======
+-------
 
 big_O is released under the GPL v3. See LICENSE.txt .
 
