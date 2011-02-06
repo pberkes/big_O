@@ -6,9 +6,6 @@
 
 import numpy as np
 
-# TODO: pretty print utility that prints first significant numbers
-# TODO: transform fitted numbers in seconds to have interpretable results
-
 class NotFittedError(Exception):
     pass
 
@@ -41,7 +38,7 @@ class ComplexityClass(object):
         y = self._transform_time(t)
         coeff, residuals, rank, s = np.linalg.lstsq(x, y)
         self.coeff = coeff
-        return residuals
+        return residuals[0]
 
     def compute(self, n):
         """Compute the value of the fitted function at `n`."""
@@ -92,7 +89,7 @@ class Constant(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.3f'
+        return 'time = %.2G'
 
 class Linear(ComplexityClass):
     def _transform_n(self, n):
@@ -100,7 +97,7 @@ class Linear(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.3f + %.3f*n'
+        return 'time = %.2G + %.2G*n'
 
 class Quadratic(ComplexityClass):
     def _transform_n(self, n):
@@ -108,7 +105,7 @@ class Quadratic(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.3f + %.3f*n^2'
+        return 'time = %.2G + %.2G*n^2'
 
 class Cubic(ComplexityClass):
     def _transform_n(self, n):
@@ -116,7 +113,7 @@ class Cubic(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.3f + %.3f*n^3'
+        return 'time = %.2G + %.2G*n^3'
 
 class Logarithmic(ComplexityClass):
     def _transform_n(self, n):
@@ -124,7 +121,7 @@ class Logarithmic(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.3f + %.3f*log(n)'
+        return 'time = %.2G + %.2G*log(n)'
 
 class Linearithmic(ComplexityClass):
     def _transform_n(self, n):
@@ -132,7 +129,7 @@ class Linearithmic(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.3f + %.3f*n*log(n)'
+        return 'time = %.2G + %.2G*n*log(n)'
 
 class Polynomial(ComplexityClass):
     def _transform_n(self, n):
@@ -143,7 +140,7 @@ class Polynomial(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.3f * x^%.3f'
+        return 'time = %.2G * x^%.2G'
 
 class Exponential(ComplexityClass):
     def _transform_n(self, n):
@@ -154,7 +151,7 @@ class Exponential(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.3f * %.3f^n'
+        return 'time = %.2G * %.2G^n'
 
 ALL_CLASSES = [Constant, Linear, Quadratic, Cubic, Polynomial,
                Logarithmic, Linearithmic, Exponential]
