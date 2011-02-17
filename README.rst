@@ -3,8 +3,9 @@ big_O
 =====
 
 big_O is a Python module to estimate the time complexity of Python code from
-its execution time. You can use it to analyze how your functions scale
-with inputs of increasing size.
+its execution time.  It can be used to analyze how functions scale with inputs
+of increasing size.
+
 
 big_O executes a Python function for input of increasing size `N`, and measures
 its execution time. From the measurements, big_O fits a set of time complexity
@@ -69,6 +70,26 @@ Sorting a list in Python is O(n*log(n)) (a.k.a. 'linearithmic'):
 
 	>>> big_o.big_o(sorted, lambda n: big_o.datagen.integers(n, -100, 100))
 	(<big_o.complexities.Linearithmic object at 0x031DA9D0>, ...)
+
+Inserting elements at the beginning of a list is O(n):
+
+	>>> def insert_0(lst):
+	...      lst.insert(0, 0)
+	...
+	>>> print big_o.big_o(insert_0, big_o.datagen.range_n, n_repeats=100)[0]
+	Linear: time = 0.00035 + 7.5E-08*n
+	
+Inserting elements at the beginning of a queue is O(1):
+
+	>>> from collections import deque
+	>>> def insert_0_queue(queue):
+	...      lst.insert(0, 0)
+	...
+	>>> def queue_generator(n):
+	...      return deque(xrange(n))
+	...
+	>>> print big_o.big_o(insert_0_queue, queue_generator, n_repeats=100)[0]
+	Constant: time = 0.00012
 
 `numpy` examples
 ----------------
