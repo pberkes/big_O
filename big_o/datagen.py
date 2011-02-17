@@ -4,9 +4,8 @@
 # Copyright (c) 2011 Pietro Berkes
 # License: GPL v3
 
-# TODO: add generators for random strings
-
 import random
+import string
 
 def n_(n):
     """Return N."""
@@ -25,3 +24,7 @@ def large_integers(n):
     """Return sequence of N large random integers."""
     return [random.randint(-50, 50) * 1000000 + random.randint(0,10000)
             for _ in range(n)]
+
+def strings(n, chars=string.letters):
+    """Return random string of N characters, sampled at random from `chars`."""
+    return ''.join([random.choice(chars) for i in xrange(n)])
