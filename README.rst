@@ -99,12 +99,12 @@ Creating an array:
 - `numpy.zeros` is O(n), since it needs to initialize every element to 0:
 
     >>> import numpy as np
-    >>> big_o.big_o(np.zeros, big_o.datagen.n_, max_n=1000000, n_repeats=5) # doctest: +ELLIPSIS
+    >>> big_o.big_o(np.zeros, big_o.datagen.n_, max_n=100000, n_repeats=100)
     (<class 'big_o.big_o.Linear'>, ...)
 
 - `numpy.empty` instead just allocates the memory, and is thus O(1):
 
-    >>> big_o.big_o(np.empty, big_o.datagen.n_, max_n=1000000, n_repeats=5) # doctest: +ELLIPSIS
+    >>> big_o.big_o(np.empty, big_o.datagen.n_, max_n=100000, n_repeats=100)
     (<class 'big_o.big_o.Constant'> ...)
 
 
