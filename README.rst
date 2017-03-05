@@ -36,8 +36,8 @@ data generator that provides lists of random integers of length N:
     >>> import big_o
     >>> positive_int_generator = lambda n: big_o.datagen.integers(n, 0, 10000)
     >>> best, others = big_o.big_o(find_max, positive_int_generator, n_repeats=100)
-    >>> print best
-    Linear: time = -0.0028 + 6.1E-06*n
+    >>> print(best)
+    Linear: time = -0.0021 + 4E-06*n
 
 `big_o` inferred that the asymptotic behavior of the `find_max` fuction is
 linear, and returns an object containing the fitted coefficients for the
@@ -45,16 +45,16 @@ complexity class. The second return argument, `others`, contains a dictionary
 of all fitted classes with the residuals from the fit as keys:
 
     >>> for class_, residuals in others.items():
-    ...     print class_, '   (res: %.2G)' % residuals
+    ...     print('{:<60s}    (res: {:.2G})'.format(class_, residuals))
     ...
-    Linear: time = 0.0015 + 5.8E-06*n    (res: 8.9E-05)
-    Polynomial: time = -12 * x^0.95    (res: 0.0093)
-    Logarithmic: time = -0.44 + 0.073*log(n)    (res: 0.14)
-    Linearithmic: time = 0.016 + 5E-07*n*log(n)    (res: 0.00064)
-    Exponential: time = -4.1 * 4.5E-05^n    (res: 14)
-    Constant: time = 0.29    (res: 0.35)
-    Cubic: time = 0.15 + 5.1E-16*n^3    (res: 0.062)
-    Quadratic: time = 0.1 + 5.4E-11*n^2    (res: 0.026)
+    Logarithmic: time = -0.3 + 0.05*log(n)                      (res: 0.072)
+    Cubic: time = 0.1 + 3.6E-16*n^3                             (res: 0.028)
+    Quadratic: time = 0.068 + 3.8E-11*n^2                       (res: 0.011)
+    Constant: time = 0.2                                        (res: 0.17)
+    Exponential: time = -4.2 * 4.1E-05^n                        (res: 9.6)
+    Linearithmic: time = 0.0077 + 3.5E-07*n*log(n)              (res: 0.00055)
+    Polynomial: time = -11 * x^0.84                             (res: 0.12)
+    Linear: time = -0.0021 + 4E-06*n                            (res: 0.00054)
 
 Submodules
 ----------
@@ -74,7 +74,7 @@ Sorting a list in Python is O(n*log(n)) (a.k.a. 'linearithmic'):
 Inserting elements at the beginning of a list is O(n):
 
     >>> def insert_0(lst):
-    ...      lst.insert(0, 0)
+    ...     lst.insert(0, 0)
     ...
     >>> print big_o.big_o(insert_0, big_o.datagen.range_n, n_repeats=100)[0]
     Linear: time = 0.00035 + 7.5E-08*n
@@ -83,7 +83,7 @@ Inserting elements at the beginning of a queue is O(1):
 
     >>> from collections import deque
     >>> def insert_0_queue(queue):
-    ...      lst.insert(0, 0)
+    ...     lst.insert(0, 0)
     ...
     >>> def queue_generator(n):
     ...      return deque(xrange(n))

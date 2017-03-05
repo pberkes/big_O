@@ -98,7 +98,7 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
             best_residuals = residuals
             best_class = inst
         if verbose:
-            print inst, '(r=%f)' % residuals
+            print(inst, '(r={:f})'.format(residuals))
     return best_class, fitted
 
 
@@ -125,7 +125,6 @@ def big_o(func, data_generator,
 
     n_repeats -- Number of times func is called to compute execution time
                  (return the cumulative time of execution)
-
 
     classes -- The complexity classes to consider. This is a list of subclasses
                of `big_o.complexities.ComplexityClass`.

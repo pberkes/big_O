@@ -51,11 +51,11 @@ class ComplexityClass(object):
         return tot
 
     def __str__(self):
-        prefix = '%s: ' % self.__class__.__name__
+        prefix = '{}: '.format(self.__class__.__name__)
 
         if self.coeff is None:
             return prefix + ': not yet fitted'
-        return prefix + self.format_str() % tuple(self.coeff)
+        return prefix + self.format_str().format(*tuple(self.coeff))
 
     # --- abstract methods
 
@@ -89,7 +89,7 @@ class Constant(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.2G'
+        return 'time = {:.2G}'
 
 
 class Linear(ComplexityClass):
@@ -98,7 +98,7 @@ class Linear(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.2G + %.2G*n'
+        return 'time = {:.2G} + {:.2G}*n'
 
 
 class Quadratic(ComplexityClass):
@@ -107,7 +107,7 @@ class Quadratic(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.2G + %.2G*n^2'
+        return 'time = {:.2G} + {:.2G}*n^2'
 
 
 class Cubic(ComplexityClass):
@@ -116,7 +116,7 @@ class Cubic(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.2G + %.2G*n^3'
+        return 'time = {:.2G} + {:.2G}*n^3'
 
 
 class Logarithmic(ComplexityClass):
@@ -125,7 +125,7 @@ class Logarithmic(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.2G + %.2G*log(n)'
+        return 'time = {:.2G} + {:.2G}*log(n)'
 
 
 class Linearithmic(ComplexityClass):
@@ -134,7 +134,7 @@ class Linearithmic(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.2G + %.2G*n*log(n)'
+        return 'time = {:.2G} + {:.2G}*n*log(n)'
 
 
 class Polynomial(ComplexityClass):
@@ -146,7 +146,7 @@ class Polynomial(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.2G * x^%.2G'
+        return 'time = {:.2G} * x^{:.2G}'
 
 
 class Exponential(ComplexityClass):
@@ -158,7 +158,7 @@ class Exponential(ComplexityClass):
 
     @classmethod
     def format_str(cls):
-        return 'time = %.2G * %.2G^n'
+        return 'time = {:.2G} * {:.2G}^n'
 
 
 ALL_CLASSES = [Constant, Linear, Quadratic, Cubic, Polynomial,
