@@ -2,32 +2,33 @@
 
 import numpy as np
 
+
 class NotFittedError(Exception):
     pass
 
+
 class ComplexityClass(object):
-    """Abstract class that defines functionality for fitting complexity
-    classes to timing data. 
+    """ Abstract class that fits complexity classes to timing data.
     """
-    
+
     def __init__(self):
         # list of parameters of the fitted function class as returned by the
         # last square method np.linalg.lstsq
         self.coeff = None
 
     def fit(self, n, t):
-        """Fit complexity class parameters to timing data.
-        
+        """ Fit complexity class parameters to timing data.
+
         Input:
         ------
-        
+
         n -- Array of values of N for which execution time has been measured.
-    
+
         t -- Array of execution times for each N in `ns`.
-        
+
         Output:
         -------
-        
+
         residuals -- Sum of square errors of fit
         """
         x = self._transform_n(n)
@@ -37,15 +38,16 @@ class ComplexityClass(object):
         return residuals[0]
 
     def compute(self, n):
-        """Compute the value of the fitted function at `n`."""
+        """ Compute the value of the fitted function at `n`. """
         if self.coeff is None:
             raise NotFittedError()
 
-        # result is linear combination of the terms with the fitted coefficients
+        # Result is linear combination of the terms with the fitted
+        # coefficients
         x = self._transform_n(n)
         tot = 0
         for i in range(len(self.coeff)):
-            tot += self.coeff[i] * x[:,i]
+            tot += self.coeff[i] * x[:, i]
         return tot
 
     def __str__(self):
@@ -59,23 +61,25 @@ class ComplexityClass(object):
 
     @classmethod
     def format_str(cls):
-        """Return a string describing the fitted function.
-        
-        The string must contain one formatting argument for each coefficient."""
+        """ Return a string describing the fitted function.
+
+        The string must contain one formatting argument for each coefficient.
+        """
         return 'FORMAT STRING NOT DEFINED'
 
     def _transform_n(self, n):
-        """Terms of the linear combination defining the complexity class.
-        
+        """ Terms of the linear combination defining the complexity class.
+
         Output format: number of Ns x number of coefficients .
         """
         raise NotImplementedError()
 
     def _transform_time(self, t):
-        """Transform time as needed for fit
+        """ Transform time as needed for fitting.
         (e.g., t->log(t)) for exponential class.
         """
         return t
+
 
 # --- Concrete implementations of the most popular complexity classes
 
@@ -87,6 +91,7 @@ class Constant(ComplexityClass):
     def format_str(cls):
         return 'time = %.2G'
 
+
 class Linear(ComplexityClass):
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n]).T
@@ -94,6 +99,7 @@ class Linear(ComplexityClass):
     @classmethod
     def format_str(cls):
         return 'time = %.2G + %.2G*n'
+
 
 class Quadratic(ComplexityClass):
     def _transform_n(self, n):
@@ -103,6 +109,7 @@ class Quadratic(ComplexityClass):
     def format_str(cls):
         return 'time = %.2G + %.2G*n^2'
 
+
 class Cubic(ComplexityClass):
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n ** 3]).T
@@ -110,6 +117,7 @@ class Cubic(ComplexityClass):
     @classmethod
     def format_str(cls):
         return 'time = %.2G + %.2G*n^3'
+
 
 class Logarithmic(ComplexityClass):
     def _transform_n(self, n):
@@ -119,6 +127,7 @@ class Logarithmic(ComplexityClass):
     def format_str(cls):
         return 'time = %.2G + %.2G*log(n)'
 
+
 class Linearithmic(ComplexityClass):
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n * np.log(n)]).T
@@ -126,6 +135,7 @@ class Linearithmic(ComplexityClass):
     @classmethod
     def format_str(cls):
         return 'time = %.2G + %.2G*n*log(n)'
+
 
 class Polynomial(ComplexityClass):
     def _transform_n(self, n):
@@ -138,6 +148,7 @@ class Polynomial(ComplexityClass):
     def format_str(cls):
         return 'time = %.2G * x^%.2G'
 
+
 class Exponential(ComplexityClass):
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n]).T
@@ -148,6 +159,7 @@ class Exponential(ComplexityClass):
     @classmethod
     def format_str(cls):
         return 'time = %.2G * %.2G^n'
+
 
 ALL_CLASSES = [Constant, Linear, Quadratic, Cubic, Polynomial,
                Logarithmic, Linearithmic, Exponential]

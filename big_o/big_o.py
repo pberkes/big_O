@@ -1,12 +1,15 @@
+from __future__ import absolute_import
+
 import numpy as np
 from timeit import Timer
 
-from .complexities import ALL_CLASSES
+from big_o.complexities import ALL_CLASSES
+
 
 def measure_execution_time(func, data_generator,
                            min_n=100, max_n=100000, n_measures=10,
                            n_repeats=1):
-    """Measure the execution time of a function for increasing N.
+    """ Measure the execution time of a function for increasing N.
 
     Input:
     ------
@@ -38,8 +41,10 @@ def measure_execution_time(func, data_generator,
     # we need a wrapper that holds a reference to func and the generated data
     # for the timeit.Timer object
     class func_wrapper(object):
+
         def __init__(self, n):
             self.data = data_generator(n)
+
         def __call__(self):
             return func(self.data)
 
@@ -50,6 +55,7 @@ def measure_execution_time(func, data_generator,
         timer = Timer(func_wrapper(n))
         time[i] = timer.timeit(n_repeats)
     return ns, time
+
 
 def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
     """Infer the complexity class from execution times.
@@ -95,10 +101,11 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
             print inst, '(r=%f)' % residuals
     return best_class, fitted
 
+
 def big_o(func, data_generator,
           min_n=100, max_n=100000, n_measures=10,
           n_repeats=1, classes=ALL_CLASSES, verbose=False):
-    """Estimate time complexity class of a function from execution time.
+    """ Estimate time complexity class of a function from execution time.
 
     Input:
     ------
