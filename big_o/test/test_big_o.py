@@ -55,14 +55,3 @@ class TestBigO(unittest.TestCase):
                 min_n=100, max_n=1000, n_repeats=5,
             )
             self.assertEqual(class_, res_class.__class__)
-
-    def test_compute(self):
-        x = np.linspace(10, 100, 100)
-        y = 3.0 * x + 2.0
-        linear = compl.Linear()
-        linear.fit(x, y)
-        assert_array_almost_equal(linear.compute(x), y, 10)
-
-    def test_not_fitted(self):
-        linear = compl.Linear()
-        self.assertRaises(compl.NotFittedError, linear.compute, 100)
