@@ -1,9 +1,3 @@
-# Author: Pietro Berkes < pietro _DOT_ berkes _AT_ googlemail _DOT_ com >
-# Copyright (c) 2011 Pietro Berkes
-# License: GPL v3
-
-# TODO: simple plotting functions
-
 import numpy as np
 from timeit import Timer
 
@@ -13,31 +7,31 @@ def measure_execution_time(func, data_generator,
                            min_n=100, max_n=100000, n_measures=10,
                            n_repeats=1):
     """Measure the execution time of a function for increasing N.
-    
+
     Input:
     ------
-    
+
     func -- Function of which the execution time is measured.
             The function is called as func(data), where data is returned
             by the argument `data_generator`
-            
+
     data_generator -- Function returning input data of 'length' N.
                       Input data for the argument `func` is created as
                       `data_generator(N)`. Common data generators are defined
                       in the submodule `big_o.datagen`
-                      
+
     min_n, max_n, n_measures -- The execution time of func is measured
-                                at `n_measures` points between `min_n` and 
+                                at `n_measures` points between `min_n` and
                                 `max_n` (included)
-                                
+
     n_repeats -- Number of times func is called to compute execution time
                  (return the cumulative time of execution)
-    
+
     Output:
     -------
-    
+
     n -- List of N's used as input to `data_generator`
-    
+
     time -- List of total execution time for each N in seconds
     """
 
@@ -59,28 +53,28 @@ def measure_execution_time(func, data_generator,
 
 def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
     """Infer the complexity class from execution times.
-    
+
     Input:
     ------
-    
+
     ns -- Array of values of N for which execution time has been measured.
-    
+
     time -- Array of execution times for each N in `ns`.
-    
+
     classes -- The complexity classes to consider. This is a list of subclasses
                of `big_o.complexities.ComplexityClass`.
                Default: all the classes in `big_o.complexities.ALL_CLASSES`
-               
+
     verbose -- If True, print parameters and residuals of the fit for each
                complexity class
-    
+
     Output:
     -------
-    
+
     best_class -- Object representing the complexity class that best fits
                   the measured execution times.
                   Instance of `big_o.complexities.ComplexityClass`.
-                  
+
     fitted -- A dictionary of fittest complexity classes to the fit residuals
     """
 
@@ -108,38 +102,38 @@ def big_o(func, data_generator,
 
     Input:
     ------
-    
+
     func -- Function of which the execution time is measured.
             The function is called as func(data), where data is returned
             by the argument `data_generator`
-            
+
     data_generator -- Function returning input data of 'length' N.
                       Input data for the argument `func` is created as
                       `data_generator(N)`. Common data generators are defined
                       in the submodule `big_o.datagen`
-                      
+
     min_n, max_n, n_measures -- The execution time of func is measured
-                                at `n_measures` points between `min_n` and 
+                                at `n_measures` points between `min_n` and
                                 `max_n` (included)
-                                
+
     n_repeats -- Number of times func is called to compute execution time
                  (return the cumulative time of execution)
 
-    
+
     classes -- The complexity classes to consider. This is a list of subclasses
                of `big_o.complexities.ComplexityClass`.
                Default: all the classes in `big_o.complexities.ALL_CLASSES`
-               
+
     verbose -- If True, print parameters and residuals of the fit for each
                complexity class
-    
+
     Output:
     -------
-    
+
     best_class -- Object representing the complexity class that best fits
                   the measured execution times.
                   Instance of `big_o.complexities.ComplexityClass`.
-                  
+
     fitted -- A dictionary of fittest complexity classes to the fit residuals
     """
 
