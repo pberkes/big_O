@@ -42,16 +42,39 @@ class TestBigO(unittest.TestCase):
             assert_array_almost_equal(coeff, res_class.coeff, 2)
 
     def test_big_o(self):
+        def dummy_linear_function(n):
+            for i in xrange(n):
+                # Dummy operation with constant complexity.
+                8282828 * 2322
+
+        def dummy_quadratic_function(n):
+            for i in xrange(n):
+                for j in xrange(n):
+                    # Dummy operation with constant complexity.
+                    8282828 * 2322
+
+        # In the best case, TimSort is linear, so we fix a random array to
+        # make sure we hit a close-to-worst case scenario, which is
+        # O(n*log(n)).
+        random_state = np.random.RandomState(89342787)
+        random_array = random_state.rand(100000)
+
+        # Each test case is a tuple
+        # (function_to_evaluate, expected_complexity_class, range_for_n)
         desired = [
-            (lambda n: [i for i in xrange(n*100)], compl.Linear),
-            (lambda n: 1., compl.Constant),
-            (lambda n: [i+j for i in xrange(n) for j in xrange(n)],
-             compl.Quadratic),
-            (lambda n: sorted(np.random.randn(n*100)), compl.Linearithmic),
+            (dummy_linear_function, compl.Linear, (100, 10000)),
+            (lambda n: 1., compl.Constant, (1000, 10000)),
+            (dummy_quadratic_function, compl.Quadratic, (50, 200)),
+            (lambda n: np.sort(random_array[:n], kind='mergesort'),
+             compl.Linearithmic, (100, random_array.shape[0])),
         ]
-        for func, class_ in desired:
+        for func, class_, n_range in desired:
             res_class, fitted = big_o.big_o(
                 func, datagen.n_,
-                min_n=100, max_n=1000, n_repeats=5,
+                min_n=n_range[0],
+                max_n=n_range[1],
+                n_measures=25,
+                n_repeats=10,
+                n_timings=10,
             )
             self.assertEqual(class_, res_class.__class__)
