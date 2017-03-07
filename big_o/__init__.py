@@ -1,7 +1,9 @@
-# Author: Pietro Berkes < pietro _DOT_ berkes _AT_ googlemail _DOT_ com >
-# Copyright (c) 2011 Pietro Berkes
-# License: GPL v3
+from __future__ import absolute_import
 
-from big_o import *
-import datagen
-import complexities
+from big_o.big_o import (  # noqa
+    big_o,
+    infer_big_o_class,
+    measure_execution_time,
+)
+from big_o import complexities  # noqa
+from big_o import datagen  # noqa
