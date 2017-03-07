@@ -43,13 +43,13 @@ class TestBigO(unittest.TestCase):
 
     def test_big_o(self):
         def dummy_linear_function(n):
-            for i in xrange(n):
+            for i in range(n):
                 # Dummy operation with constant complexity.
                 8282828 * 2322
 
         def dummy_quadratic_function(n):
-            for i in xrange(n):
-                for j in xrange(n):
+            for i in range(n):
+                for j in range(n):
                     # Dummy operation with constant complexity.
                     8282828 * 2322
 
