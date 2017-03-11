@@ -1,14 +1,15 @@
 from __future__ import absolute_import
 
-import numpy as np
 from timeit import Timer
+
+import numpy as np
 
 from big_o.complexities import ALL_CLASSES
 
 
 def measure_execution_time(func, data_generator,
                            min_n=100, max_n=100000, n_measures=10,
-                           n_repeats=1):
+                           n_repeats=1, n_timings=1):
     """ Measure the execution time of a function for increasing N.
 
     Input:
@@ -30,6 +31,9 @@ def measure_execution_time(func, data_generator,
     n_repeats -- Number of times func is called to compute execution time
                  (return the cumulative time of execution)
 
+    n_timings -- Number of times the timing measurement is repeated.
+                 The minimum time for all the measurements is kept.
+
     Output:
     -------
 
@@ -50,11 +54,12 @@ def measure_execution_time(func, data_generator,
 
     # TODO: check that max_n is not larger than max int64
     ns = np.linspace(min_n, max_n, n_measures).astype('int64')
-    time = np.empty(n_measures)
+    execution_time = np.empty(n_measures)
     for i, n in enumerate(ns):
         timer = Timer(func_wrapper(n))
-        time[i] = timer.timeit(n_repeats)
-    return ns, time
+        measurements = timer.repeat(n_timings, n_repeats)
+        execution_time[i] = np.min(measurements)
+    return ns, execution_time
 
 
 def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
@@ -104,7 +109,7 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
 
 def big_o(func, data_generator,
           min_n=100, max_n=100000, n_measures=10,
-          n_repeats=1, classes=ALL_CLASSES, verbose=False):
+          n_repeats=1, n_timings=1, classes=ALL_CLASSES, verbose=False):
     """ Estimate time complexity class of a function from execution time.
 
     Input:
@@ -126,6 +131,9 @@ def big_o(func, data_generator,
     n_repeats -- Number of times func is called to compute execution time
                  (return the cumulative time of execution)
 
+    n_timings -- Number of times the timing measurement is repeated.
+                 The minimum time for all the measurements is kept.
+
     classes -- The complexity classes to consider. This is a list of subclasses
                of `big_o.complexities.ComplexityClass`.
                Default: all the classes in `big_o.complexities.ALL_CLASSES`
@@ -144,5 +152,6 @@ def big_o(func, data_generator,
     """
 
     ns, time = measure_execution_time(func, data_generator,
-                                      min_n, max_n, n_measures, n_repeats)
+                                      min_n, max_n, n_measures, n_repeats,
+                                      n_timings)
     return infer_big_o_class(ns, time, classes, verbose=verbose)
