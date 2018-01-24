@@ -7,7 +7,7 @@ with open('README.rst') as readme_file:
 
 setup(
     name='big_O',
-    version='0.8',
+    version='0.8.1',
     description='Empirical estimation of time complexity from execution time',
     author='Pietro Berkes',
     author_email='pietro.berkes@googlemail.com',
