@@ -33,7 +33,7 @@ class ComplexityClass(object):
         """
         x = self._transform_n(n)
         y = self._transform_time(t)
-        coeff, residuals, rank, s = np.linalg.lstsq(x, y)
+        coeff, residuals, rank, s = np.linalg.lstsq(x, y, rcond=-1)
         self.coeff = coeff
         return residuals[0]
 
