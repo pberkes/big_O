@@ -39,7 +39,7 @@ data generator that provides lists of random integers of length N:
     >>> print(best)
     Linear: time = -0.0021 + 4E-06*n
 
-`big_o` inferred that the asymptotic behavior of the `find_max` fuction is
+`big_o` inferred that the asymptotic behavior of the `find_max` function is
 linear, and returns an object containing the fitted coefficients for the
 complexity class. The second return argument, `others`, contains a dictionary
 of all fitted classes with the residuals from the fit as keys:
@@ -83,7 +83,7 @@ Inserting elements at the beginning of a queue is O(1):
 
     >>> from collections import deque
     >>> def insert_0_queue(queue):
-    ...     lst.insert(0, 0)
+    ...     queue.insert(0, 0)
     ...
     >>> def queue_generator(n):
     ...      return deque(xrange(n))
@@ -106,6 +106,37 @@ Creating an array:
 
     >>> big_o.big_o(np.empty, big_o.datagen.n_, max_n=100000, n_repeats=100)
     (<class 'big_o.big_o.Constant'> ...)
+
+Additional examples
+--------------
+
+We can compare the estimated time complexities of different Fibonacci number implementations. The naive implementation is exponential O(2^n). Since this implementation is very inefficient we'll reduce the maximum tested n:
+
+    >>> def fib_naive(n):
+    ...     if n < 0:
+    ...         return -1
+    ...     if n < 2:
+    ...         return n
+    ...     return fib_naive(n-1) + fib_naive(n-2)
+    ...
+    >>> print(big_o.big_o(fib_naive, big_o.datagen.n_, n_repeats=20, min_n=2, max_n=25)[0])
+    Exponential: time = -11 * 0.45^n
+
+A more efficient implementation to find Fibonacci numbers involves using dynamic programming and is linear O(n):
+
+    >>> def fib_dp(n):
+    ...     if n < 0:
+    ...         return -1
+    ...     if n < 2:
+    ...         return n
+    ...     a = 0
+    ...     b = 1
+    ...     for i in range(2, n+1):
+    ...         a, b = b, a+b
+    ...     return b
+    ...
+    >>> print(big_o.big_o(fib2, big_o.datagen.n_, n_repeats=100, min_n=2, max_n=1000)[0])
+    Linear: time = 0.00012 + 1E-05*n
 
 
 License
