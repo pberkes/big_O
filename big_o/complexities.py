@@ -55,7 +55,7 @@ class ComplexityClass(object):
 
         if self.coeff is None:
             return prefix + ': not yet fitted'
-        return prefix + self.format_str().format(*tuple(self.coeff))
+        return prefix + self.format_str().format(*tuple(self.coeff)) + ' (sec)'
 
     # --- abstract methods
 

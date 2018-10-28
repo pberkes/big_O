@@ -17,3 +17,11 @@ class TestComplexities(unittest.TestCase):
     def test_not_fitted(self):
         linear = complexities.Linear()
         self.assertRaises(complexities.NotFittedError, linear.compute, 100)
+
+    def test_str_includes_units(self):
+        x = np.linspace(10, 100, 100)
+        y = 3.0 * x + 2.0
+        linear = complexities.Linear()
+        linear.fit(x, y)
+        linear_str = str(linear)
+        assert '(sec)' in linear_str
