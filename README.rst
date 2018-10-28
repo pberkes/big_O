@@ -142,6 +142,6 @@ A more efficient implementation to find Fibonacci numbers involves using dynamic
 License
 -------
 
-big_O is released under the GPL v3. See LICENSE.txt .
+big_O is released under BSD-3. See LICENSE.txt .
 
-Copyright (c) 2011, Pietro Berkes. All rights reserved.
+Copyright (c) 2011-2018, Pietro Berkes. All rights reserved.
