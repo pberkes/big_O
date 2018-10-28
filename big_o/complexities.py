@@ -24,7 +24,7 @@ class ComplexityClass(object):
 
         n -- Array of values of N for which execution time has been measured.
 
-        t -- Array of execution times for each N in `ns`.
+        t -- Array of execution times for each N in seconds.
 
         Output:
         -------
