@@ -70,7 +70,7 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
 
     ns -- Array of values of N for which execution time has been measured.
 
-    time -- Array of execution times for each N in `ns`.
+    time -- Array of execution times for each N in seconds.
 
     classes -- The complexity classes to consider. This is a list of subclasses
                of `big_o.complexities.ComplexityClass`.

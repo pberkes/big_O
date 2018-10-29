@@ -24,7 +24,7 @@ class ComplexityClass(object):
 
         n -- Array of values of N for which execution time has been measured.
 
-        t -- Array of execution times for each N in `ns`.
+        t -- Array of execution times for each N in seconds.
 
         Output:
         -------
@@ -55,7 +55,7 @@ class ComplexityClass(object):
 
         if self.coeff is None:
             return prefix + ': not yet fitted'
-        return prefix + self.format_str().format(*tuple(self.coeff))
+        return prefix + self.format_str().format(*tuple(self.coeff)) + ' (sec)'
 
     # --- abstract methods
 
