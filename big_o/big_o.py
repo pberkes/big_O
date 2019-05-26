@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+from tqdm import tqdm
+
 from timeit import Timer
 
 import numpy as np
@@ -55,7 +57,7 @@ def measure_execution_time(func, data_generator,
     # TODO: check that max_n is not larger than max int64
     ns = np.linspace(min_n, max_n, n_measures).astype('int64')
     execution_time = np.empty(n_measures)
-    for i, n in enumerate(ns):
+    for i, n in tqdm(enumerate(ns), total = len(ns)):
         timer = Timer(func_wrapper(n))
         measurements = timer.repeat(n_timings, n_repeats)
         execution_time[i] = np.min(measurements)
