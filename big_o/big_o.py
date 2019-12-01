@@ -62,7 +62,7 @@ def measure_execution_time(func, data_generator,
     return ns, execution_time
 
 
-def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
+def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False, return_raw_data=False):
     """Infer the complexity class from execution times.
 
     Input:
@@ -95,7 +95,8 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
     for class_ in classes:
         inst = class_()
         residuals = inst.fit(ns, time)
-        fitted[inst] = residuals
+        fitted[inst] = residuals if not return_raw_data else {
+            'residuals': residuals, 'measures': ns, 'times': time}
 
         # NOTE: subtract 1e-6 for tiny preference for simpler methods
         # TODO: improve simplicity bias (AIC/BIC)?
@@ -109,7 +110,7 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
 
 def big_o(func, data_generator,
           min_n=100, max_n=100000, n_measures=10,
-          n_repeats=1, n_timings=1, classes=ALL_CLASSES, verbose=False):
+          n_repeats=1, n_timings=1, classes=ALL_CLASSES, verbose=False, return_raw_data=False):
     """ Estimate time complexity class of a function from execution time.
 
     Input:
@@ -141,6 +142,11 @@ def big_o(func, data_generator,
     verbose -- If True, print parameters and residuals of the fit for each
                complexity class
 
+    return_raw_data -- If True, it returns the measure points and its corresponding
+                       execution times as part of the fitted complexity classes. Each
+                       dictionary will have the structure: 
+                       {residuals = <float>, measures = [<int>+], times = [<float>+]}
+
     Output:
     -------
 
@@ -154,4 +160,4 @@ def big_o(func, data_generator,
     ns, time = measure_execution_time(func, data_generator,
                                       min_n, max_n, n_measures, n_repeats,
                                       n_timings)
-    return infer_big_o_class(ns, time, classes, verbose=verbose)
+    return infer_big_o_class(ns, time, classes, verbose=verbose, return_raw_data=return_raw_data)

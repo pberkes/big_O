@@ -78,3 +78,66 @@ class TestBigO(unittest.TestCase):
                 n_timings=10,
             )
             self.assertEqual(class_, res_class.__class__)
+
+    def test_big_o_return_raw_data_default(self):
+        def dummy_linear_function(n):
+            for _ in range(n):
+                # Dummy operation with constant complexity.
+                8282828 * 2322
+
+        _, fitted = big_o.big_o(
+            dummy_linear_function,
+            datagen.n_,
+            min_n=100,
+            max_n=10000,
+            n_measures=25,
+            n_repeats=10,
+            n_timings=10)
+
+        for _, v in fitted.items():
+            self.assertIsInstance(v, np.float64)
+
+    def test_big_o_return_raw_data_false(self):
+        def dummy_linear_function(n):
+            for _ in range(n):
+                # Dummy operation with constant complexity.
+                8282828 * 2322
+
+        _, fitted = big_o.big_o(
+            dummy_linear_function,
+            datagen.n_,
+            min_n=100,
+            max_n=10000,
+            n_measures=25,
+            n_repeats=10,
+            n_timings=10,
+            return_raw_data=False)
+
+        for _, v in fitted.items():
+            self.assertIsInstance(v, np.float64)
+
+    def test_big_o_return_raw_data_true(self):
+        def dummy_linear_function(n):
+            for _ in range(n):
+                # Dummy operation with constant complexity.
+                8282828 * 2322
+
+        _, fitted = big_o.big_o(
+            dummy_linear_function,
+            datagen.n_,
+            min_n=100,
+            max_n=10000,
+            n_measures=25,
+            n_repeats=10,
+            n_timings=10,
+            return_raw_data=True)
+
+        for _, v in fitted.items():
+            self.assertIsInstance(v, dict)
+            keys = v.keys()
+            self.assertIn('residuals', keys)
+            self.assertIsInstance(v['residuals'], np.float64)
+            self.assertIn('measures', keys)
+            self.assertEqual(len(v['measures']), 25)
+            self.assertIn('times', keys)
+            self.assertEqual(len(v['times']), 25)
