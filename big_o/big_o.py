@@ -79,6 +79,11 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False, return_raw_d
     verbose -- If True, print parameters and residuals of the fit for each
                complexity class
 
+    return_raw_data -- If True, it returns the measure points and its corresponding
+                       execution times as part of the fitted complexity classes. Each
+                       dictionary will have the structure: 
+                       {residuals = <float>, measures = [<int>+], times = [<float>+]}
+
     Output:
     -------
 
