@@ -62,7 +62,7 @@ def measure_execution_time(func, data_generator,
     return ns, execution_time
 
 
-def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False, return_raw_data=False):
+def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
     """Infer the complexity class from execution times.
 
     Input:
@@ -78,11 +78,6 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False, return_raw_d
 
     verbose -- If True, print parameters and residuals of the fit for each
                complexity class
-
-    return_raw_data -- If True, it returns the measure points and its corresponding
-                       execution times as part of the fitted complexity classes. Each
-                       dictionary will have the structure: 
-                       {residuals = <float>, measures = [<int>+], times = [<float>+]}
 
     Output:
     -------
@@ -100,8 +95,7 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False, return_raw_d
     for class_ in classes:
         inst = class_()
         residuals = inst.fit(ns, time)
-        fitted[inst] = residuals if not return_raw_data else {
-            'residuals': residuals, 'measures': ns, 'times': time}
+        fitted[inst] = residuals
 
         # NOTE: subtract 1e-6 for tiny preference for simpler methods
         # TODO: improve simplicity bias (AIC/BIC)?
@@ -147,10 +141,10 @@ def big_o(func, data_generator,
     verbose -- If True, print parameters and residuals of the fit for each
                complexity class
 
-    return_raw_data -- If True, it returns the measure points and its corresponding
-                       execution times as part of the fitted complexity classes. Each
-                       dictionary will have the structure: 
-                       {residuals = <float>, measures = [<int>+], times = [<float>+]}
+    return_raw_data -- If True, the function returns the measure points and its 
+                       corresponding execution times as part of the fitted dictionary
+                       of complexity classes. When this flag is true, fitted will 
+                       contain the entries: {'measures': [<int>+], 'times': [<float>+]}
 
     Output:
     -------
@@ -165,4 +159,10 @@ def big_o(func, data_generator,
     ns, time = measure_execution_time(func, data_generator,
                                       min_n, max_n, n_measures, n_repeats,
                                       n_timings)
-    return infer_big_o_class(ns, time, classes, verbose=verbose, return_raw_data=return_raw_data)
+    best, fitted = infer_big_o_class(ns, time, classes, verbose=verbose)
+
+    if return_raw_data:
+        fitted['measures'] = ns
+        fitted['times'] = time
+
+    return best, fitted

@@ -117,27 +117,36 @@ class TestBigO(unittest.TestCase):
             self.assertIsInstance(v, np.float64)
 
     def test_big_o_return_raw_data_true(self):
-        def dummy_linear_function(n):
-            for _ in range(n):
-                # Dummy operation with constant complexity.
-                8282828 * 2322
+        def dummy(n):
+            time.sleep(0.001)
+
+        n_measures = 10
+        n_repeats = 5
+        n_timings = 3
 
         _, fitted = big_o.big_o(
-            dummy_linear_function,
+            dummy,
             datagen.n_,
             min_n=100,
-            max_n=10000,
-            n_measures=25,
-            n_repeats=10,
-            n_timings=10,
+            max_n=1000,
+            n_measures=n_measures,
+            n_repeats=n_repeats,
+            n_timings=n_timings,
             return_raw_data=True)
 
-        for _, v in fitted.items():
-            self.assertIsInstance(v, dict)
-            keys = v.keys()
-            self.assertIn('residuals', keys)
-            self.assertIsInstance(v['residuals'], np.float64)
-            self.assertIn('measures', keys)
-            self.assertEqual(len(v['measures']), 25)
-            self.assertIn('times', keys)
-            self.assertEqual(len(v['times']), 25)
+        for k, v in fitted.items():
+            if isinstance(k, compl.ComplexityClass):
+                self.assertIsInstance(v, np.float64)
+        
+        self.assertIn('measures', fitted)
+        measures = fitted['measures']
+        self.assertEqual(len(measures), n_measures)
+        for i in range(1, n_measures):
+            self.assertGreater(measures[i], measures[i-1])
+
+        self.assertIn('times', fitted)
+        times = fitted['times']
+        n_times = len(times)
+        self.assertEqual(n_times, 10)
+        for t in times:
+            self.assertGreaterEqual(t, 0.001 * n_repeats)
