@@ -144,7 +144,8 @@ def big_o(func, data_generator,
     return_raw_data -- If True, the function returns the measure points and its 
                        corresponding execution times as part of the fitted dictionary
                        of complexity classes. When this flag is true, fitted will 
-                       contain the entries: {'measures': [<int>+], 'times': [<float>+]}
+                       contain the entries: 
+                       {... 'measures': [<int>+], 'times': [<float>+] ...}
 
     Output:
     -------

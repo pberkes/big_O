@@ -146,7 +146,6 @@ class TestBigO(unittest.TestCase):
 
         self.assertIn('times', fitted)
         times = fitted['times']
-        n_times = len(times)
-        self.assertEqual(n_times, 10)
+        self.assertEqual(len(times), n_measures)
         for t in times:
             self.assertGreaterEqual(t, 0.001 * n_repeats)
