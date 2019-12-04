@@ -109,7 +109,7 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
 
 def big_o(func, data_generator,
           min_n=100, max_n=100000, n_measures=10,
-          n_repeats=1, n_timings=1, classes=ALL_CLASSES, verbose=False):
+          n_repeats=1, n_timings=1, classes=ALL_CLASSES, verbose=False, return_raw_data=False):
     """ Estimate time complexity class of a function from execution time.
 
     Input:
@@ -141,6 +141,12 @@ def big_o(func, data_generator,
     verbose -- If True, print parameters and residuals of the fit for each
                complexity class
 
+    return_raw_data -- If True, the function returns the measure points and its 
+                       corresponding execution times as part of the fitted dictionary
+                       of complexity classes. When this flag is true, fitted will 
+                       contain the entries: 
+                       {... 'measures': [<int>+], 'times': [<float>+] ...}
+
     Output:
     -------
 
@@ -154,4 +160,10 @@ def big_o(func, data_generator,
     ns, time = measure_execution_time(func, data_generator,
                                       min_n, max_n, n_measures, n_repeats,
                                       n_timings)
-    return infer_big_o_class(ns, time, classes, verbose=verbose)
+    best, fitted = infer_big_o_class(ns, time, classes, verbose=verbose)
+
+    if return_raw_data:
+        fitted['measures'] = ns
+        fitted['times'] = time
+
+    return best, fitted

@@ -78,3 +78,74 @@ class TestBigO(unittest.TestCase):
                 n_timings=10,
             )
             self.assertEqual(class_, res_class.__class__)
+
+    def test_big_o_return_raw_data_default(self):
+        def dummy_linear_function(n):
+            for _ in range(n):
+                # Dummy operation with constant complexity.
+                8282828 * 2322
+
+        _, fitted = big_o.big_o(
+            dummy_linear_function,
+            datagen.n_,
+            min_n=100,
+            max_n=10000,
+            n_measures=25,
+            n_repeats=10,
+            n_timings=10)
+
+        for _, v in fitted.items():
+            self.assertIsInstance(v, np.float64)
+
+    def test_big_o_return_raw_data_false(self):
+        def dummy_linear_function(n):
+            for _ in range(n):
+                # Dummy operation with constant complexity.
+                8282828 * 2322
+
+        _, fitted = big_o.big_o(
+            dummy_linear_function,
+            datagen.n_,
+            min_n=100,
+            max_n=10000,
+            n_measures=25,
+            n_repeats=10,
+            n_timings=10,
+            return_raw_data=False)
+
+        for _, v in fitted.items():
+            self.assertIsInstance(v, np.float64)
+
+    def test_big_o_return_raw_data_true(self):
+        def dummy(n):
+            time.sleep(0.001)
+
+        n_measures = 10
+        n_repeats = 5
+        n_timings = 3
+
+        _, fitted = big_o.big_o(
+            dummy,
+            datagen.n_,
+            min_n=100,
+            max_n=1000,
+            n_measures=n_measures,
+            n_repeats=n_repeats,
+            n_timings=n_timings,
+            return_raw_data=True)
+
+        for k, v in fitted.items():
+            if isinstance(k, compl.ComplexityClass):
+                self.assertIsInstance(v, np.float64)
+        
+        self.assertIn('measures', fitted)
+        measures = fitted['measures']
+        self.assertEqual(len(measures), n_measures)
+        for i in range(1, n_measures):
+            self.assertGreater(measures[i], measures[i-1])
+
+        self.assertIn('times', fitted)
+        times = fitted['times']
+        self.assertEqual(len(times), n_measures)
+        for t in times:
+            self.assertGreaterEqual(t, 0.001 * n_repeats)
