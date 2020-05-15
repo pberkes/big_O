@@ -86,6 +86,11 @@ class ComplexityClass(object):
     def __lt__(self, other):
         return self.order < other.order
 
+    def __le__(self, other):
+        return (self < other) or self == other
+
+    def __le__(self, other):
+        return (self > other) or self == other
 
 # --- Concrete implementations of the most popular complexity classes
 
