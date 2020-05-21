@@ -96,7 +96,7 @@ class ComplexityClass(object):
 
 
 class Constant(ComplexityClass):
-    order = 1
+    order = 10
 
     def _transform_n(self, n):
         return np.ones((len(n), 1))
@@ -107,7 +107,7 @@ class Constant(ComplexityClass):
 
 
 class Linear(ComplexityClass):
-    order = 3
+    order = 30
 
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n]).T
@@ -118,7 +118,7 @@ class Linear(ComplexityClass):
 
 
 class Quadratic(ComplexityClass):
-    order = 5
+    order = 50
 
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n * n]).T
@@ -129,7 +129,7 @@ class Quadratic(ComplexityClass):
 
 
 class Cubic(ComplexityClass):
-    order = 6
+    order = 60
 
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n ** 3]).T
@@ -140,7 +140,7 @@ class Cubic(ComplexityClass):
 
 
 class Logarithmic(ComplexityClass):
-    order = 2
+    order = 20
 
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), np.log(n)]).T
@@ -151,7 +151,7 @@ class Logarithmic(ComplexityClass):
 
 
 class Linearithmic(ComplexityClass):
-    order = 4
+    order = 40
 
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n * np.log(n)]).T
@@ -162,7 +162,7 @@ class Linearithmic(ComplexityClass):
 
 
 class Polynomial(ComplexityClass):
-    order = 7
+    order = 70
 
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), np.log(n)]).T
@@ -176,7 +176,7 @@ class Polynomial(ComplexityClass):
 
 
 class Exponential(ComplexityClass):
-    order = 8
+    order = 80
 
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n]).T
