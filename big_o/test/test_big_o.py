@@ -44,13 +44,13 @@ class TestBigO(unittest.TestCase):
     def test_big_o(self):
         def dummy_linear_function(n):
             for i in range(n):
-                # Dummy operation with constant complexity.
+                # Dummy operation with linear complexity.
                 8282828 * 2322
 
         def dummy_quadratic_function(n):
             for i in range(n):
                 for j in range(n):
-                    # Dummy operation with constant complexity.
+                    # Dummy operation with quadratic complexity.
                     8282828 * 2322
 
         # In the best case, TimSort is linear, so we fix a random array to
@@ -64,7 +64,7 @@ class TestBigO(unittest.TestCase):
         desired = [
             (dummy_linear_function, compl.Linear, (100, 10000)),
             (lambda n: 1., compl.Constant, (1000, 10000)),
-            (dummy_quadratic_function, compl.Quadratic, (50, 200)),
+            (dummy_quadratic_function, compl.Quadratic, (50, 500)),
             (lambda n: np.sort(random_array[:n], kind='mergesort'),
              compl.Linearithmic, (100, random_array.shape[0])),
         ]
@@ -137,7 +137,7 @@ class TestBigO(unittest.TestCase):
         for k, v in fitted.items():
             if isinstance(k, compl.ComplexityClass):
                 self.assertIsInstance(v, np.float64)
-        
+
         self.assertIn('measures', fitted)
         measures = fitted['measures']
         self.assertEqual(len(measures), n_measures)
