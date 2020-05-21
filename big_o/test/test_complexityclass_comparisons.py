@@ -34,7 +34,7 @@ class TestComplexities(unittest.TestCase):
         self.assertEqual(FirstComplexity < FirstComplexity, False)
         self.assertEqual(SecondComplexity < FirstComplexity, False)
 
-    def test_l(self):
+    def test_g(self):
         self.assertEqual(FirstComplexity > SecondComplexity, False)
         self.assertEqual(FirstComplexity > FirstComplexity, False)
         self.assertEqual(SecondComplexity > FirstComplexity, True)
