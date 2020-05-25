@@ -8,36 +8,47 @@ class FirstComplexityClass(ComplexityClass):
     order = 1
 
 
+class AltFirstComplexityClass(ComplexityClass):
+    order = 1
+
+
 class SecondComplexityClass(ComplexityClass):
     order = 2
 
 
-FirstComplexity = FirstComplexityClass()
-SecondComplexity = SecondComplexityClass()
-
-
 class TestComplexities(unittest.TestCase):
 
+    def setUp(self):
+        print('here')
+        self.first_complexity = FirstComplexityClass()
+        self.alt_first_complexity = AltFirstComplexityClass()
+        self.second_complexity = SecondComplexityClass()
+
     def test_ge(self):
-        self.assertEqual(FirstComplexity >= SecondComplexity, False)
-        self.assertEqual(FirstComplexity >= FirstComplexity, True)
-        self.assertEqual(SecondComplexity >= FirstComplexity, True)
+        self.assertFalse(self.first_complexity >= self.second_complexity)
+        self.assertTrue(self.second_complexity >= self.first_complexity)
+        self.assertTrue(self.first_complexity >= self.first_complexity)
+        self.assertTrue(self.alt_first_complexity >= self.first_complexity)
+        self.assertTrue(self.first_complexity >= self.alt_first_complexity)
 
     def test_le(self):
-        self.assertEqual(FirstComplexity <= SecondComplexity, True)
-        self.assertEqual(FirstComplexity <= FirstComplexity, True)
-        self.assertEqual(SecondComplexity <= FirstComplexity, False)
+        self.assertTrue(self.first_complexity <= self.second_complexity)
+        self.assertFalse(self.second_complexity <= self.first_complexity)
+        self.assertTrue(self.first_complexity <= self.first_complexity)
+        self.assertTrue(self.alt_first_complexity <= self.first_complexity)
+        self.assertTrue(self.first_complexity <= self.alt_first_complexity)
 
     def test_l(self):
-        self.assertEqual(FirstComplexity < SecondComplexity, True)
-        self.assertEqual(FirstComplexity < FirstComplexity, False)
-        self.assertEqual(SecondComplexity < FirstComplexity, False)
+        self.assertTrue(self.first_complexity < self.second_complexity)
+        self.assertFalse(self.second_complexity < self.first_complexity)
+        self.assertFalse(self.first_complexity < self.alt_first_complexity)
 
     def test_g(self):
-        self.assertEqual(FirstComplexity > SecondComplexity, False)
-        self.assertEqual(FirstComplexity > FirstComplexity, False)
-        self.assertEqual(SecondComplexity > FirstComplexity, True)
+        self.assertFalse(self.first_complexity > self.second_complexity)
+        self.assertTrue(self.second_complexity > self.first_complexity)
+        self.assertFalse(self.first_complexity > self.alt_first_complexity)
 
     def test_eq(self):
-        self.assertEqual(FirstComplexity == SecondComplexity, False)
-        self.assertEqual(FirstComplexity == FirstComplexity, True)
+        self.assertFalse(self.first_complexity == self.second_complexity)
+        self.assertTrue(self.first_complexity == self.first_complexity)
+        self.assertTrue(self.first_complexity == self.alt_first_complexity)

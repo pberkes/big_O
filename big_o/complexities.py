@@ -92,6 +92,12 @@ class ComplexityClass(object):
     def __ge__(self, other):
         return (self > other) or self == other
 
+    def __eq__(self, other):
+        return self.order == other.order
+
+    def __hash__(self):
+        return id(self)
+
 # --- Concrete implementations of the most popular complexity classes
 
 
