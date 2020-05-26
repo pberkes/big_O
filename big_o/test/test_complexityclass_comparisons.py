@@ -1,5 +1,4 @@
 import unittest
-import numpy as np
 
 from big_o.complexities import ComplexityClass
 
@@ -19,7 +18,6 @@ class SecondComplexityClass(ComplexityClass):
 class TestComplexities(unittest.TestCase):
 
     def setUp(self):
-        print('here')
         self.first_complexity = FirstComplexityClass()
         self.alt_first_complexity = AltFirstComplexityClass()
         self.second_complexity = SecondComplexityClass()
