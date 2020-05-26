@@ -80,10 +80,30 @@ class ComplexityClass(object):
         """
         return t
 
+    def __gt__(self, other):
+        return self.order > other.order
+
+    def __lt__(self, other):
+        return self.order < other.order
+
+    def __le__(self, other):
+        return (self < other) or self == other
+
+    def __ge__(self, other):
+        return (self > other) or self == other
+
+    def __eq__(self, other):
+        return self.order == other.order
+
+    def __hash__(self):
+        return id(self)
 
 # --- Concrete implementations of the most popular complexity classes
 
+
 class Constant(ComplexityClass):
+    order = 10
+
     def _transform_n(self, n):
         return np.ones((len(n), 1))
 
@@ -93,6 +113,8 @@ class Constant(ComplexityClass):
 
 
 class Linear(ComplexityClass):
+    order = 30
+
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n]).T
 
@@ -102,6 +124,8 @@ class Linear(ComplexityClass):
 
 
 class Quadratic(ComplexityClass):
+    order = 50
+
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n * n]).T
 
@@ -111,6 +135,8 @@ class Quadratic(ComplexityClass):
 
 
 class Cubic(ComplexityClass):
+    order = 60
+
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n ** 3]).T
 
@@ -120,6 +146,8 @@ class Cubic(ComplexityClass):
 
 
 class Logarithmic(ComplexityClass):
+    order = 20
+
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), np.log(n)]).T
 
@@ -129,6 +157,8 @@ class Logarithmic(ComplexityClass):
 
 
 class Linearithmic(ComplexityClass):
+    order = 40
+
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n * np.log(n)]).T
 
@@ -138,6 +168,8 @@ class Linearithmic(ComplexityClass):
 
 
 class Polynomial(ComplexityClass):
+    order = 70
+
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), np.log(n)]).T
 
@@ -150,6 +182,8 @@ class Polynomial(ComplexityClass):
 
 
 class Exponential(ComplexityClass):
+    order = 80
+
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n]).T
 
