@@ -113,7 +113,7 @@ Creating an array:
     (<class 'big_o.big_o.Constant'> ...)
 
 Additional examples
---------------
+-------------------
 
 We can compare the estimated time complexities of different Fibonacci number
 implementations. The naive implementation is exponential O(2^n). Since this
