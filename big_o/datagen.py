@@ -29,4 +29,4 @@ def large_integers(n):
 def strings(n, chars=string.ascii_letters):
     """ Return random string of N characters, sampled at random from `chars`.
     """
-    return ''.join([random.choice(chars) for i in xrange(n)])
+    return ''.join([random.choice(chars) for i in range(n)])
