@@ -1,4 +1,4 @@
-Name: Run all the tests for PRs, with OS/Python matrix
+name: Run all the tests for PRs and pushes
 
 on:
   [push, pull_request]
