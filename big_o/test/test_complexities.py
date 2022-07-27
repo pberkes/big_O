@@ -27,8 +27,8 @@ class TestComplexities(unittest.TestCase):
             assert_array_almost_equal(complexity.compute(x), y, 10, "compute() failed to match expected values for class %r" % class_)
 
     def test_not_fitted(self):
-        linear = complexities.Linear()
-        self.assertRaises(complexities.NotFittedError, linear.compute, 100)
+        for class_ in complexities.ALL_CLASSES:
+            self.assertRaises(complexities.NotFittedError, class_().compute, 100)
 
     def test_str_includes_units(self):
         x = np.linspace(10, 100, 100)
