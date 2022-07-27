@@ -48,7 +48,7 @@ class ComplexityClass(object):
         tot = 0
         for i in range(len(self.coeff)):
             tot += self.coeff[i] * x[:, i]
-        return tot
+        return self._inverse_transform_time(tot)
 
     def __str__(self):
         prefix = '{}: '.format(self.__class__.__name__)
@@ -77,6 +77,12 @@ class ComplexityClass(object):
     def _transform_time(self, t):
         """ Transform time as needed for fitting.
         (e.g., t->log(t)) for exponential class.
+        """
+        return t
+
+    def _inverse_transform_time(self, t):
+        """ Inverse transform time as needed for compute.
+        (e.g., t->exp(t)) for exponential class.
         """
         return t
 
@@ -176,6 +182,9 @@ class Polynomial(ComplexityClass):
     def _transform_time(self, t):
         return np.log(t)
 
+    def _inverse_transform_time(self, t):
+        return np.exp(t)
+
     @classmethod
     def format_str(cls):
         return 'time = {:.2G} * x^{:.2G}'
@@ -189,6 +198,9 @@ class Exponential(ComplexityClass):
 
     def _transform_time(self, t):
         return np.log(t)
+
+    def _inverse_transform_time(self, t):
+        return np.exp(t)
 
     @classmethod
     def format_str(cls):
