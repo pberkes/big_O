@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from numpy.testing import assert_array_almost_equal
+from numpy.testing import assert_allclose
 
 from big_o import complexities
 
@@ -24,7 +24,7 @@ class TestComplexities(unittest.TestCase):
             y = f(x)
             complexity = class_()
             complexity.fit(x, y)
-            assert_array_almost_equal(complexity.compute(x), y, 10, "compute() failed to match expected values for class %r" % class_)
+            assert_allclose(y, complexity.compute(x), err_msg = "compute() failed to match expected values for class %r" % class_)
 
     def test_not_fitted(self):
         for class_ in complexities.ALL_CLASSES:
