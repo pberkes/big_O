@@ -60,7 +60,7 @@ class ComplexityClass(object):
         prefix = '{}: '.format(self.__class__.__name__)
 
         if self.coeff is None:
-            return prefix + ': not yet fitted'
+            return prefix + 'not yet fitted'
         return prefix + self.format_str().format(
             *self.coefficients()) + ' (sec)'
 
