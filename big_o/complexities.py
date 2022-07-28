@@ -209,6 +209,7 @@ class Polynomial(ComplexityClass):
         a, b = self.coeff
         return np.exp(a), b
 
+
 class Exponential(ComplexityClass):
     order = 80
 
@@ -237,6 +238,7 @@ class Exponential(ComplexityClass):
 
         a, b = self.coeff
         return np.exp(a), np.exp(b)
+
 
 ALL_CLASSES = [Constant, Linear, Quadratic, Cubic, Polynomial,
                Logarithmic, Linearithmic, Exponential]
