@@ -50,12 +50,19 @@ class ComplexityClass(object):
             tot += self.coeff[i] * x[:, i]
         return self._inverse_transform_time(tot)
 
+    def coefficients(self):
+        """ Return coefficients in standard form. """
+        if self.coeff is None:
+            raise NotFittedError()
+        return self.coeff
+
     def __str__(self):
         prefix = '{}: '.format(self.__class__.__name__)
 
         if self.coeff is None:
             return prefix + ': not yet fitted'
-        return prefix + self.format_str().format(*tuple(self.coeff)) + ' (sec)'
+        return prefix + self.format_str().format(
+            *self.coefficients()) + ' (sec)'
 
     # --- abstract methods
 
@@ -189,6 +196,18 @@ class Polynomial(ComplexityClass):
     def format_str(cls):
         return 'time = {:.2G} * x^{:.2G}'
 
+    def coefficients(self):
+        """ Return coefficients in standard form. """
+        # The polynomial is stored in the format
+        # exp(a)*n^b where [a, b] are the coefficients
+        # Technical full format is exp(a+b*ln(n))
+        #
+        # Standard form is a*n^b
+        if self.coeff is None:
+            raise NotFittedError()
+
+        a, b = self.coeff
+        return np.exp(a), b
 
 class Exponential(ComplexityClass):
     order = 80
@@ -206,6 +225,18 @@ class Exponential(ComplexityClass):
     def format_str(cls):
         return 'time = {:.2G} * {:.2G}^n'
 
+    def coefficients(self):
+        """ Return coefficients in standard form. """
+        # The polynomial is stored in the format
+        # exp(a)*exp(b)^n where [a, b] are the coefficients
+        # Technical full format is exp(a+b*n)
+        #
+        # Standard form is a*b^n
+        if self.coeff is None:
+            raise NotFittedError()
+
+        a, b = self.coeff
+        return np.exp(a), np.exp(b)
 
 ALL_CLASSES = [Constant, Linear, Quadratic, Cubic, Polynomial,
                Logarithmic, Linearithmic, Exponential]
