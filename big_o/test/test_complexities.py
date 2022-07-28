@@ -24,7 +24,8 @@ class TestComplexities(unittest.TestCase):
             y = f(x)
             complexity = class_()
             complexity.fit(x, y)
-            assert_allclose(y, complexity.compute(x), err_msg = "compute() failed to match expected values for class %r" % class_)
+            assert_allclose(y, complexity.compute(x),
+                err_msg = "compute() failed to match expected values for class %r" % class_)
 
     def test_not_fitted(self):
         for class_ in complexities.ALL_CLASSES:
