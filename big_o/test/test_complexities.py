@@ -23,9 +23,17 @@ class TestComplexities(unittest.TestCase):
         for f, class_ in desired:
             y = f(x)
             complexity = class_()
-            complexity.fit(x, y)
-            assert_allclose(y, complexity.compute(x),
+            residuals = complexity.fit(x, y)
+
+            ref_y = complexity.compute(x)
+            assert_allclose(y, ref_y,
                 err_msg = "compute() failed to match expected values for class %r" % class_)
+
+            # Check residuals are correct
+            # Use the atol constant from np.allclose() because the default for
+            # np.testing.assert_allclose() for atol (0) is too low for this comparison
+            assert_allclose(residuals, np.sum((y - ref_y) ** 2), rtol=1e-07, atol=1e-08,
+                err_msg = "compute() residuals failed to match expected values for class %r" % class_)
 
     def test_not_fitted(self):
         for class_ in complexities.ALL_CLASSES:
