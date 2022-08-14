@@ -46,3 +46,30 @@ class TestComplexities(unittest.TestCase):
         linear.fit(x, y)
         linear_str = str(linear)
         assert '(sec)' in linear_str
+
+    def test_fit_list_input(self):
+        # Check a normal list / iterable can be passed to fit()
+        ns = range(10, 100, 10)
+        time = [x**2 for x in ns]
+
+        quadratic = complexities.Quadratic()
+        quadratic.fit(ns, time)
+
+        coeff = quadratic.coeff
+        coefficients = quadratic.coefficients()
+
+        ns_np = np.array(ns)
+        time_np = np.array(time)
+
+        quadratic_check = complexities.Quadratic()
+        quadratic_check.fit(ns_np, time_np)
+
+        coeff_check = quadratic_check.coeff
+        coefficients_check = quadratic_check.coefficients()
+
+        assert_allclose(coeff, coeff_check,
+            err_msg = "coeff of {} did not match coeff of check complexity {}".format(
+                quadratic, quadratic_check))
+        assert_allclose(coefficients, coefficients_check,
+            err_msg = "coefficients of {} did not match coefficients of check complexity {}".format(
+                quadratic, quadratic_check))

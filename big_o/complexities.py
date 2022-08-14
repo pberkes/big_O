@@ -32,6 +32,9 @@ class ComplexityClass(object):
 
         residuals -- Sum of square errors of fit
         """
+        n = np.asanyarray(n)
+        t = np.asanyarray(t)
+
         x = self._transform_n(n)
         y = self._transform_time(t)
         coeff, residuals, rank, s = np.linalg.lstsq(x, y, rcond=-1)

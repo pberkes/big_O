@@ -32,7 +32,7 @@ class TestBigO(unittest.TestCase):
             return n
         ns, t = big_o.measure_execution_time(
             f, datagen.n_,
-            min_n=1, max_n=5, n_measures=5, n_repeats=1,
+            min_n=1, max_n=5, n_measures=5, n_repeats=1, n_timings=5
         )
         assert_array_equal(ns, np.arange(1, 6))
         assert_array_almost_equal(t*10., np.arange(1, 6), 1)
@@ -56,6 +56,23 @@ class TestBigO(unittest.TestCase):
             res_class, fitted = big_o.infer_big_o_class(x, y)
             self.assertEqual(class_, res_class.__class__)
             assert_array_almost_equal(coeff, res_class.coeff, 2)
+
+    def test_infer_big_o_list_input(self):
+        # Check a normal list / iterable can be passed to infer_big_o_class()
+        ns = range(10, 100, 10)
+        time = [x**2 for x in ns]
+
+        best, fitted = big_o.infer_big_o_class(ns, time)
+
+        ns_np = np.array(ns)
+        time_np = np.array(time)
+
+        best_check, fitted_check = big_o.infer_big_o_class(ns_np, time_np)
+
+        self.assertEqual(best.order, best_check.order,
+            msg = "Order of complexity {} did not match check complexity {}".format(
+                best, best_check))
+        self.assertAlmostEqual(fitted[best], fitted_check[best_check])
 
     def test_big_o(self):
         # Numpy sorts are fast enough that they are very close to linear
@@ -84,7 +101,7 @@ class TestBigO(unittest.TestCase):
 
             residuals = fitted[res_class]
 
-            if residuals > 5e-4:
+            if residuals > 1e-4:
                 if isinstance(res_class, class_):
                     self.skipTest("Complexity fit error is too high to be reliable (but test passed)")
                 else:
