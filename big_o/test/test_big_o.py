@@ -7,8 +7,19 @@ import big_o
 from big_o import datagen
 from big_o import complexities as compl
 
+def dummy_constant_function(n):
+    # Dummy operation with constant complexity.
+    x = 0
+    for i in range(100):
+        x += 1
+    return n
+
 def dummy_linear_function(n):
     # Dummy operation with linear complexity.
+
+    # Constant component of linear function
+    dummy_constant_function(n)
+
     x = 0
     for i in range(n):
         for j in range(20):
@@ -17,6 +28,10 @@ def dummy_linear_function(n):
 
 def dummy_quadratic_function(n):
     # Dummy operation with quadratic complexity.
+
+    # Constant component of quadratic function
+    dummy_constant_function(n)
+
     x = 0
     for i in range(n):
         for j in range(n):
@@ -83,8 +98,8 @@ class TestBigO(unittest.TestCase):
         # Each test case is a tuple
         # (function_to_evaluate, expected_complexity_class, range_for_n)
         desired = [
-            (dummy_linear_function, compl.Linear, (100, 1000)),
-            (lambda n: 1., compl.Constant, (1000, 10000)),
+            (dummy_constant_function, compl.Constant, (1000, 10000)),
+            (dummy_linear_function, compl.Linear, (100, 2000)),
             (dummy_quadratic_function, compl.Quadratic, (1, 100)),
             (lambda n: np.sort(random_array[:n], kind='heapsort'),
              compl.Linearithmic, (100, random_array.shape[0])),
@@ -101,7 +116,7 @@ class TestBigO(unittest.TestCase):
 
             residuals = fitted[res_class]
 
-            if residuals > 1e-4:
+            if residuals > 5e-4:
                 if isinstance(res_class, class_):
                     self.skipTest("Complexity fit error is too high to be reliable (but test passed)")
                 else:
