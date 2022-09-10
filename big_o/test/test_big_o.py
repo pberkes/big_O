@@ -7,12 +7,14 @@ import big_o
 from big_o import datagen
 from big_o import complexities as compl
 
+
 def dummy_constant_function(n):
     # Dummy operation with constant complexity.
     x = 0
     for i in range(100):
         x += 1
     return n
+
 
 def dummy_linear_function(n):
     # Dummy operation with linear complexity.
@@ -26,6 +28,7 @@ def dummy_linear_function(n):
             x += 1
     return x // 20
 
+
 def dummy_quadratic_function(n):
     # Dummy operation with quadratic complexity.
 
@@ -38,6 +41,7 @@ def dummy_quadratic_function(n):
             for k in range(20):
                 x += 1
     return x // 20
+
 
 class TestBigO(unittest.TestCase):
 
@@ -99,7 +103,7 @@ class TestBigO(unittest.TestCase):
         # (function_to_evaluate, expected_complexity_class, range_for_n)
         desired = [
             (dummy_constant_function, compl.Constant, (1000, 10000)),
-            (dummy_linear_function, compl.Linear, (100, 2000)),
+            (dummy_linear_function, compl.Linear, (100, 5000)),
             (dummy_quadratic_function, compl.Quadratic, (1, 100)),
             (lambda n: np.sort(random_array[:n], kind='heapsort'),
              compl.Linearithmic, (100, random_array.shape[0])),
