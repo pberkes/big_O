@@ -33,7 +33,7 @@ class TestComplexities(unittest.TestCase):
             # Use the atol constant from np.allclose() because the default for
             # np.testing.assert_allclose() for atol (0) is too low for this comparison
             assert_allclose(residuals, np.sum((y - ref_y) ** 2), rtol=1e-07, atol=1e-08,
-                err_msg = "compute() residuals failed to match expected values for class %r" % class_)
+                err_msg = "fit() residuals failed to match expected value for class %r" % class_)
 
     def test_not_fitted(self):
         for class_ in complexities.ALL_CLASSES:
@@ -46,6 +46,36 @@ class TestComplexities(unittest.TestCase):
         linear.fit(x, y)
         linear_str = str(linear)
         assert '(sec)' in linear_str
+
+    def test_fit_residuals(self):
+        rng = np.random.default_rng()
+
+        desired = [
+            (lambda x: x*0.+100, complexities.Constant),
+            (lambda x: x, complexities.Linear),
+            (lambda x: x**2, complexities.Quadratic),
+            (lambda x: x**3, complexities.Cubic),
+            (lambda x: x**2.5, complexities.Polynomial),
+            (lambda x: np.log(x), complexities.Logarithmic),
+            (lambda x: x*np.log(x), complexities.Linearithmic),
+            (lambda x: 3.14**(x/10.), complexities.Exponential)
+        ]
+
+        counts = np.linspace(1, 1000, 5000)
+        for f, class_ in desired:
+            # Adding random noise so the residual doesn't approximate zero
+            y = f(counts + np.abs(rng.standard_normal(counts.size)) * .1) \
+                    + np.abs(rng.standard_normal(counts.size))
+
+            complexity = class_()
+            residuals = complexity.fit(counts, y)
+            ref_y = complexity.compute(counts)
+
+            # Check residuals are correct
+            # Use the atol constant from np.allclose() because the default for
+            # np.testing.assert_allclose() for atol (0) is too low for this comparison
+            assert_allclose(residuals, np.sum((y - ref_y) ** 2), rtol=1e-07, atol=1e-08,
+                err_msg = "fit() residuals failed to match expected value for class %r" % class_)
 
     def test_fit_list_input(self):
         # Check a normal list / iterable can be passed to fit()
