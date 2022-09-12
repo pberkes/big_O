@@ -62,7 +62,7 @@ def measure_execution_time(func, data_generator,
     return ns, execution_time
 
 
-def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
+def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False, simplicity_bias=1e-6):
     """Infer the complexity class from execution times.
 
     Input:
@@ -78,6 +78,12 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
 
     verbose -- If True, print parameters and residuals of the fit for each
                complexity class
+
+    simplicity_bias -- Preference toward choosing simpler methods when
+                       the difference between residuals is less than the
+                       simplicity_bias. If simplicity_bias is 0, the
+                       complexity class with the lowest residuals is
+                       always chosen.
 
     Output:
     -------
@@ -97,9 +103,9 @@ def infer_big_o_class(ns, time, classes=ALL_CLASSES, verbose=False):
         residuals = inst.fit(ns, time)
         fitted[inst] = residuals
 
-        # NOTE: subtract 1e-6 for tiny preference for simpler methods
+        # NOTE: subtract bias for tiny preference for simpler methods
         # TODO: improve simplicity bias (AIC/BIC)?
-        if residuals < best_residuals - 1e-6:
+        if residuals < best_residuals - simplicity_bias:
             best_residuals = residuals
             best_class = inst
         if verbose:
@@ -141,10 +147,10 @@ def big_o(func, data_generator,
     verbose -- If True, print parameters and residuals of the fit for each
                complexity class
 
-    return_raw_data -- If True, the function returns the measure points and its 
+    return_raw_data -- If True, the function returns the measure points and its
                        corresponding execution times as part of the fitted dictionary
-                       of complexity classes. When this flag is true, fitted will 
-                       contain the entries: 
+                       of complexity classes. When this flag is true, fitted will
+                       contain the entries:
                        {... 'measures': [<int>+], 'times': [<float>+] ...}
 
     Output:
