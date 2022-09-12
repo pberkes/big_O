@@ -10,7 +10,14 @@ class NotFittedError(Exception):
 class ComplexityClass(object):
     """ Abstract class that fits complexity classes to timing data.
     """
-    _recalculate_residuals = False
+
+    #: bool: _recalculate_fit_residuals controls if the residuals value
+    # returned from np.linalg.lstsq() is equivalent to the margin of
+    # error of the found coefficients.
+    #
+    # This is normally only needed if the complexity class overrides
+    # _transform_time() or _inverse_transform_time()
+    _recalculate_fit_residuals = False
 
     def __init__(self):
         # list of parameters of the fitted function class as returned by the
@@ -42,7 +49,7 @@ class ComplexityClass(object):
 
         # Check if residuals from least square can be used, or if it
         # must be explicitly calculated.
-        if self._recalculate_residuals:
+        if self._recalculate_fit_residuals:
             ref_t = self.compute(n)
             residuals = np.sum((ref_t - t) ** 2)
         else:
@@ -195,7 +202,7 @@ class Linearithmic(ComplexityClass):
 class Polynomial(ComplexityClass):
     order = 70
 
-    _recalculate_residuals = True
+    _recalculate_fit_residuals = True
 
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), np.log(n)]).T
@@ -227,7 +234,7 @@ class Polynomial(ComplexityClass):
 class Exponential(ComplexityClass):
     order = 80
 
-    _recalculate_residuals = True
+    _recalculate_fit_residuals = True
 
     def _transform_n(self, n):
         return np.vstack([np.ones(len(n)), n]).T
