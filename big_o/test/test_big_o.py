@@ -122,9 +122,16 @@ class TestBigO(unittest.TestCase):
 
             if residuals > 5e-4:
                 if isinstance(res_class, class_):
-                    self.skipTest("Complexity fit error is too high to be reliable (but test passed)")
+                    err_msg = "(but test would have passed)"
                 else:
-                    self.skipTest("Complexity fit error is too high to be reliable (and test failed)")
+                    err_msg = "(and test would have failed)"
+
+                # Residual value is too high
+                # This is likely caused by the CPU being too noisy with other processes
+                # that is preventing clean timing results.
+                self.fail(
+                    "Complexity fit residuals ({:f}) is too high to be reliable {}"
+                    .format(residuals, err_msg))
 
             sol_class, sol_residuals = next(
                 (complexity, residuals) for complexity, residuals in fitted.items()
