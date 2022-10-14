@@ -4,20 +4,19 @@ build-backend = "hatchling.build"
 
 [project]
 name = "big_o_pbeekes"
-version = "0.0.1"
+version = "0.10.2"
 authors = [
-  { name="Pbeekes", email="Pbeekes@example.com" },
-  { name="JPphilips", email="Jpphilips@example.com" }
+  { name="Pietro Berkes", email="pietro.berkes@googlemail.com" },
 ]
-description = "big_O is a Python module to estimate the time complexity of Python code from its execution time. It can be used to analyze how functions scale with inputs of increasing size."
+description = "Empirical estimation of time complexity from execution time"
 readme = "README.rst"
 requires-python = ">=3.7"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
+    "License :: LICENSE.txt",
     "Operating System :: OS Independent",
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/pypa/sampleproject"
-"Bug Tracker" = "https://github.com/pypa/sampleproject/issues"
+"Homepage" = "https://github.com/pberkes/big_O"
+"Bug Tracker" = "https://github.com/pberkes/big_O/issues"
