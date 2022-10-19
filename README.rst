@@ -13,6 +13,11 @@ compute the asymptotic class of a function in `"Big-O"
 <http://en.wikipedia.org/wiki/Big_oh>`_.  notation. (Strictly
 speaking, we're empirically computing the Big Theta class.)
 
+Installation
+------------
+
+To install the package use the command :code:`pip install big-o`
+
 Usage
 -----
 
