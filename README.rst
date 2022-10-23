@@ -72,7 +72,6 @@ Submodules
   fit to the execution times. Unless you want to define new classes, you don't
   need to worry about it.
 
-
 Standard library examples
 -------------------------
 
@@ -151,6 +150,16 @@ dynamic programming and is linear O(n):
     >>> print(big_o.big_o(fib_dp, big_o.datagen.n_, n_repeats=100, min_n=200, max_n=1000)[0])
     Linear: time = -1.8E-06 + 7.3E-06*n (sec)
 
+Report Generation
+-------
+
+We can generate the a report using the output generated from calling the big_o
+function. The report defines the best time complexity along with the the others 
+estimates. The results are sorted based on the residuals and the rankings are 
+put in place to allow comparisons.
+
+    >>> best, others = big_o.big_o(heapify, data_generator_heapify, max_n=10**7)
+    >>> big_o.print_report(best, others)
 
 License
 -------
