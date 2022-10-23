@@ -173,3 +173,52 @@ def big_o(func, data_generator,
         fitted['times'] = time
 
     return best, fitted
+
+def print_report(best, others):
+    """ Prints the detailed summary of the calculated reports
+
+    Input:
+    ------
+
+    best -- Object representing the complexity class that best fits
+            the measured execution times.
+
+    others -- A dictionary of fitted complexity classes to the residuals
+
+    Output:
+    -------
+
+    None
+
+    """
+
+    def print_line(c_rank, name, coef, residual):
+        print('{:>5}  |  {:12}  |  {:35}  |  {:.2G}'.format(
+            c_rank, name, coef, residual))
+
+    def parse_data(obj):
+        name = '{}'.format(obj.__class__.__name__)
+        if obj.coeff is None:
+            coef = 'not yet fitted'
+        else:
+            coef = obj.format_str().format(*obj.coefficients()).replace('time',
+                                                                        '').replace('=', '')+' (sec)'
+        return name, coef
+
+    def filtered_value(obj, simplicity_bias=1e-6):
+        return others[obj] - simplicity_bias
+
+    def print_full_report(sorted_result):
+        rank = 1
+        for class_ in sorted_result:
+            name, coef = parse_data(class_)
+            print_line(rank, name, coef, others[class_])
+            rank += 1
+
+    sorted_result = sorted(others, key=filtered_value)
+
+    print("Best : [ {} ] \n".format(best))
+    print("*-*-" * 8 + "FULL REPORT" + "*-*-" * 8 + "\n" + '{:>5}  |  {:12}  |  {:35}  |  {:10}'
+          .format("Rank", "Complexity", "  Time", "Residual"))
+    print("-" * 75)
+    print_full_report(sorted_result)
