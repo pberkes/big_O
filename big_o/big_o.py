@@ -173,4 +173,3 @@ def big_o(func, data_generator,
         fitted['times'] = time
 
     return best, fitted
-
