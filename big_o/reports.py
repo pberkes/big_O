@@ -1,4 +1,4 @@
-from big_o.complexities import ALL_CLASSES
+from big_o.complexities import ComplexityClass
 
 def big_o_report(best, others):
     """ Creates a human-readable report of the output of the big_o function.
@@ -19,8 +19,6 @@ def big_o_report(best, others):
     report = ""
     report += 'Best : {!s:<60s} \n'.format(best)
     for class_, residuals in others.items():
-        if type(class_) in ALL_CLASSES:
+        if isinstance(class_, ComplexityClass):
             report += '{!s:<60s}    (res: {:.2G})\n'.format(class_, residuals)
-        else:
-            report += '{!s:<60s} {}\n' .format(class_ + ':', residuals)
     return report
