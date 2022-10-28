@@ -153,13 +153,24 @@ dynamic programming and is linear O(n):
 Report Generation
 -------
 
-We can generate the a report using the output generated from calling the big_o
-function. The report defines the best time complexity along with the the others 
-estimates. The results are sorted based on the residuals and the rankings are 
-put in place to allow comparisons.
+This feature allows users to generate a report based on the outputs received from
+calling the :code:`big-o` function.
+The report defines the best time complexity along with the the others
+estimates and returns them as a string.
 
     >>> best, others = big_o.big_o(heapify, data_generator_heapify, max_n=10**7)
-    >>> big_o.print_report(best, others)
+    >>> print(big_o.reports.big_o_report(best, others))
+    Best : Polynomial: time = 3.5E-06 * x^0.97 (sec)
+    Constant: time = 0.13 (sec)                                     (res: 0.067)
+    Linear: time = 0.0068 + 2.5E-06*n (sec)                         (res: 0.003)
+    Quadratic: time = 0.053 + 2.2E-11*n^2 (sec)                     (res: 0.012)
+    Cubic: time = 0.074 + 2.1E-16*n^3 (sec)                         (res: 0.02)
+    Polynomial: time = 3.5E-06 * x^0.97 (sec)                       (res: 0.003)
+    Logarithmic: time = -0.2 + 0.033*log(n) (sec)                   (res: 0.027)
+    Linearithmic: time = 0.013 + 2.2E-07*n*log(n) (sec)             (res: 0.0035)
+    Exponential: time = 0.007 * 1^n (sec)                           (res: 0.22)
+    measures:                                                    [   100  11200  22300  33400  44500  55600  66700  77800  88900 100000]
+    times:                                                       [0.00031296 0.02925126 0.06087168 0.08566567 0.10440871 0.18683418 0.19720671 0.2052643  0.21313027 0.24182967]
 
 License
 -------
