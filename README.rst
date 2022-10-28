@@ -169,8 +169,6 @@ estimates and returns them as a string.
     Logarithmic: time = -0.2 + 0.033*log(n) (sec)                   (res: 0.027)
     Linearithmic: time = 0.013 + 2.2E-07*n*log(n) (sec)             (res: 0.0035)
     Exponential: time = 0.007 * 1^n (sec)                           (res: 0.22)
-    measures:                                                    [   100  11200  22300  33400  44500  55600  66700  77800  88900 100000]
-    times:                                                       [0.00031296 0.02925126 0.06087168 0.08566567 0.10440871 0.18683418 0.19720671 0.2052643  0.21313027 0.24182967]
 
 License
 -------
