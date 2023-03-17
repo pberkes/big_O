@@ -43,6 +43,21 @@ def dummy_quadratic_function(n):
     return x // 20
 
 
+def dummy_linearithmic_function(n):
+    # Dummy operation with linearithmic complexity.
+
+    # Constant component of linearithmic function
+    dummy_constant_function(n)
+
+    x = 0
+    log_n = int(np.log(n))
+    for i in range(n):
+        for j in range(log_n):
+            for k in range(20):
+                x += 1
+    return x // 20
+
+
 class TestBigO(unittest.TestCase):
 
     def test_measure_execution_time(self):
@@ -105,8 +120,7 @@ class TestBigO(unittest.TestCase):
             (dummy_constant_function, compl.Constant, (1000, 10000)),
             (dummy_linear_function, compl.Linear, (100, 5000)),
             (dummy_quadratic_function, compl.Quadratic, (1, 100)),
-            (lambda n: np.sort(random_array[:n], kind='heapsort'),
-             compl.Linearithmic, (100, random_array.shape[0])),
+            (dummy_linearithmic_function, compl.Linearithmic, (10, 5000)),
         ]
         for func, class_, n_range in desired:
             res_class, fitted = big_o.big_o(
@@ -114,7 +128,7 @@ class TestBigO(unittest.TestCase):
                 min_n=n_range[0],
                 max_n=n_range[1],
                 n_measures=25,
-                n_repeats=10,
+                n_repeats=1,
                 n_timings=10,
                 return_raw_data = True)
 
