@@ -151,7 +151,7 @@ dynamic programming and is linear O(n):
     Linear: time = -1.8E-06 + 7.3E-06*n (sec)
 
 Report Generation
--------
+-----------------
 
 This feature allows users to generate a report based on the outputs received from
 calling the :code:`big-o` function.
