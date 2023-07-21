@@ -11,7 +11,7 @@ def n_(n):
 
 def range_n(n, start=0):
     """ Return the sequence [start, start+1, ..., start+N-1]. """
-    return list(range(start, start+n))
+    return list(range(start, start + n))
 
 
 def integers(n, min_, max_):

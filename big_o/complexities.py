@@ -130,6 +130,7 @@ class ComplexityClass(object):
     def __hash__(self):
         return id(self)
 
+
 # --- Concrete implementations of the most popular complexity classes
 
 
