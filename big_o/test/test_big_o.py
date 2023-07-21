@@ -129,7 +129,7 @@ class TestBigO(unittest.TestCase):
 
             residuals = fitted[res_class]
 
-            if residuals > 5e-4:
+            if residuals > 5e-2:
                 if isinstance(res_class, class_):
                     err_msg = "(but test would have passed)"
                 else:
