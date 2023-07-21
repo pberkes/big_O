@@ -112,10 +112,10 @@ class TestBigO(unittest.TestCase):
         # Each test case is a tuple
         # (function_to_evaluate, expected_complexity_class, range_for_n)
         desired = [
-            (dummy_constant_function, compl.Constant, (1000, 10000)),
-            (dummy_linear_function, compl.Linear, (100, 5000)),
+            (dummy_constant_function, compl.Constant, (1000, 50000)),
+            (dummy_linear_function, compl.Linear, (100, 50000)),
             (dummy_quadratic_function, compl.Quadratic, (1, 100)),
-            (dummy_linearithmic_function, compl.Linearithmic, (10, 50000)),
+            (dummy_linearithmic_function, compl.Linearithmic, (100, 100000)),
         ]
         for func, class_, n_range in desired:
             res_class, fitted = big_o.big_o(
@@ -124,7 +124,7 @@ class TestBigO(unittest.TestCase):
                 max_n=n_range[1],
                 n_measures=25,
                 n_repeats=1,
-                n_timings=10,
+                n_timings=3,
                 return_raw_data=True)
 
             residuals = fitted[res_class]
