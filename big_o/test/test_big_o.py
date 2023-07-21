@@ -73,8 +73,6 @@ class TestBigO(unittest.TestCase):
         assert_array_almost_equal(t * 10., np.arange(1, 6), 1)
 
     def test_infer_big_o(self):
-        x = np.linspace(10, 100, 100)
-
         desired = [
             (lambda x: x*0.+2., compl.Constant, [2.]),
             (lambda x: 4.*x, compl.Linear, [0., 4.]),
@@ -86,6 +84,7 @@ class TestBigO(unittest.TestCase):
             (lambda x: 0.6**x, compl.Exponential, [0., np.log(0.6)]),
         ]
 
+        x = np.linspace(10, 100, 100)
         for f, class_, coeff in desired:
             y = f(x)
             res_class, fitted = big_o.infer_big_o_class(x, y)
@@ -110,11 +109,6 @@ class TestBigO(unittest.TestCase):
         self.assertAlmostEqual(fitted[best], fitted_check[best_check])
 
     def test_big_o(self):
-        # Numpy sorts are fast enough that they are very close to linear
-        # In testing, heapsort was found to follow the best clear n * log(n) curve
-        random_state = np.random.RandomState()
-        random_array = random_state.rand(100000)
-
         # Each test case is a tuple
         # (function_to_evaluate, expected_complexity_class, range_for_n)
         desired = [
