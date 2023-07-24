@@ -1,5 +1,6 @@
 from big_o.complexities import ComplexityClass
 
+
 def big_o_report(best, others):
     """ Creates a human-readable report of the output of the big_o function.
 

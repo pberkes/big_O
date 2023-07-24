@@ -130,6 +130,7 @@ class ComplexityClass(object):
     def __hash__(self):
         return id(self)
 
+
 # --- Concrete implementations of the most popular complexity classes
 
 
@@ -263,5 +264,6 @@ class Exponential(ComplexityClass):
         return np.exp(a), np.exp(b)
 
 
-ALL_CLASSES = [Constant, Linear, Quadratic, Cubic, Polynomial,
-               Logarithmic, Linearithmic, Exponential]
+ALL_CLASSES = [Constant, Logarithmic, Linear, Linearithmic,
+               Quadratic, Cubic, Polynomial,
+               Exponential]
